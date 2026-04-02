@@ -3,24 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Confirmación de Asistencia - Boda Jenny & Rafael</title>
+    <title>Confirmación de Asistencia</title>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
     <style>
         :root { --rose: #b5294e; --dark: #1a1018; --bg: #fdf8f5; }
-        body { font-family: 'DM Sans', sans-serif; background: var(--bg); display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; padding: 20px; color: var(--dark); }
-        .confirm-card { background: white; padding: 40px 30px; border-radius: 25px; box-shadow: 0 15px 35px rgba(0,0,0,0.08); text-align: center; max-width: 400px; width: 100%; border: 1px solid #f0e0e8; }
-        h2 { color: var(--rose); font-family: 'Cormorant Garamond', serif; font-size: 28px; margin-bottom: 10px; }
-        .guest-name { font-size: 20px; font-weight: 500; margin-bottom: 5px; color: var(--dark); }
-        .pases-info { color: #888; margin-bottom: 25px; font-size: 15px; text-transform: uppercase; letter-spacing: 1px; }
-        .instruction { font-size: 16px; margin-bottom: 25px; line-height: 1.5; color: #555; }
-        .btn { display: block; width: 100%; padding: 16px; margin: 12px 0; border: none; border-radius: 12px; font-weight: 600; cursor: pointer; transition: 0.3s; font-size: 15px; letter-spacing: 0.5px; }
-        .btn-yes { background: var(--rose); color: white; box-shadow: 0 4px 15px rgba(181, 41, 78, 0.2); }
-        .btn-yes:hover { background: #962241; transform: translateY(-2px); }
+        body { font-family: 'DM Sans', sans-serif; background: var(--bg); display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; padding: 20px; }
+        .confirm-card { background: white; padding: 40px 30px; border-radius: 25px; box-shadow: 0 15px 35px rgba(0,0,0,0.08); text-align: center; max-width: 400px; width: 100%; }
+        h2 { color: var(--rose); font-family: 'Cormorant Garamond', serif; font-size: 28px; }
+        .guest-name { font-size: 22px; margin: 10px 0; font-weight: 500; }
+        .pases-info { color: #888; margin-bottom: 25px; font-size: 14px; text-transform: uppercase; }
+        .btn { display: block; width: 100%; padding: 16px; margin: 12px 0; border: none; border-radius: 12px; font-weight: 600; cursor: pointer; transition: 0.3s; }
+        .btn-yes { background: var(--rose); color: white; }
         .btn-no { background: white; border: 1px solid #ddd; color: #777; }
-        .btn-no:hover { background: #f9f9f9; }
-        #status { margin-top: 20px; font-size: 14px; color: #1a7a4a; display: none; font-weight: 500; }
-        .loading-dots:after { content: ' .'; animation: dots 1s steps(5, end) infinite; }
-        @keyframes dots { 0%, 20% { color: rgba(0,0,0,0); text-shadow: .2em 0 0 rgba(0,0,0,0), .4em 0 0 rgba(0,0,0,0); } 40% { color: #1a7a4a; text-shadow: .2em 0 0 rgba(0,0,0,0), .4em 0 0 rgba(0,0,0,0); } 60% { text-shadow: .2em 0 0 #1a7a4a, .4em 0 0 rgba(0,0,0,0); } 80%, 100% { text-shadow: .2em 0 0 #1a7a4a, .4em 0 0 #1a7a4a; } }
+        #status { margin-top: 20px; font-size: 14px; color: #1a7a4a; display: none; }
     </style>
 </head>
 <body>
@@ -29,20 +24,17 @@
         <h2>Confirmación</h2>
         <div class="guest-name" id="guest-name">Cargando...</div>
         <div class="pases-info" id="pases-info"></div>
-        <p class="instruction">¿Nos acompañarás en este día tan especial para Jenny & Rafael?</p>
-        
-        <button class="btn btn-yes" onclick="enviar('Sí confirmo')">SÍ, CONFIRMO ASISTENCIA</button>
-        <button class="btn btn-no" onclick="enviar('No asisto')">LO SIENTO, NO PODRÉ IR</button>
-        
-        <div id="status" class="loading-dots">Enviando respuesta</div>
+        <p>¿Nos acompañarás en este día tan especial?</p>
+        <button class="btn btn-yes" onclick="enviar('Sí confirmo')">SÍ, CONFIRMO</button>
+        <button class="btn btn-no" onclick="enviar('No asisto')">LO SIENTO, NO PODRÉ</button>
+        <div id="status">Registrando respuesta...</div>
     </div>
 
     <script>
-        // --- 1. CONFIGURACIÓN ---
-        const WEB_APP_URL = "TU_URL_DE_APPS_SCRIPT_AQUI"; 
+        const WEB_APP_URL = "https://docs.google.com/spreadsheets/d/1LWXRb-Q6zeJ9tYD-iiF4gM-MudSwogPib2jg0JB35TY/edit?gid=0#gid=0"; 
 
         const invitados = [
-            // --- JENNY ---
+            // --- LISTA JENNY ---
             ['LAURA CUSTODIO CARBAJAL','988750894',1], ['JORGE CUSTODIO TELLO','979287052',3],
             ['MARÍA CUSTODIO CARBAJAL','942192139',1], ['WENDY FIGUEROA CUSTODIO','920045100',1],
             ['SIMÓN CUSTODIO CARBAJAL','979181111',2], ['JUAN CUSTODIO ROJAS','968684589',2],
@@ -77,7 +69,7 @@
             ['DR ROBERTO AZURIN','974218411',1], ['DR FERNANDO DEL CARPIO','955734558',2],
             ['DR QUISPE','985995020',1], ['TIRZA INTOR','979417609',2],
             ['DR COLLADO','992774885',1], ['DR RAUL REYES','994628059',3],
-            // --- RAFAEL ---
+            // --- LISTA RAFAEL ---
             ['ROCHE GUADALUPE','999454340',2], ['ELISA ARCE','954913746',1],
             ['ANDRES ARCE','990073751',2], ['JORGE FERNANDEZ','904542667',2],
             ['CARLA FERNANDEZ','+34602594714',2], ['MARIA ALEJANDRA FERNANDEZ','+56965305576',2],
@@ -100,55 +92,27 @@
             ['PAULO GUZMAN','979658550',2]
         ];
 
-        // --- 2. LÓGICA DE DETECCIÓN ---
-        const params = new URLSearchParams(window.location.search);
-        const id = params.get('id');
+        const id = new URLSearchParams(window.location.search).get('id');
         const invitado = invitados[id];
 
         if (invitado) {
             document.getElementById('guest-name').innerText = invitado[0];
-            document.getElementById('pases-info').innerText = invitado[2] === 1 ? 'Válido para 1 persona' : `Válido para ${invitado[2]} personas`;
+            document.getElementById('pases-info').innerText = `Válido por ${invitado[2]} pases`;
         } else {
-            document.getElementById('main-content').innerHTML = `
-                <h2 style="color:#555">Enlace no válido</h2>
-                <p>Lo sentimos, no pudimos encontrar tu invitación personal.</p>
-                <p style="font-size:14px; color:#888">Por favor, contacta a la Wedding Planner.</p>
-            `;
+            document.getElementById('main-content').innerHTML = "<h2>Enlace no válido</h2>";
         }
 
-        // --- 3. ENVÍO DE DATOS ---
         async function enviar(respuesta) {
-            if (!invitado) return;
-            
             document.getElementById('status').style.display = "block";
-            const btns = document.querySelectorAll('.btn');
-            btns.forEach(b => b.style.display = 'none'); // Ocultar botones para evitar doble clic
-
             try {
-                // Enviamos los datos al Script de Google
                 await fetch(WEB_APP_URL, {
                     method: 'POST',
                     mode: 'no-cors',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        nombre: invitado[0],
-                        pases: invitado[2],
-                        respuesta: respuesta,
-                        fecha: new Date().toLocaleString()
-                    })
+                    body: JSON.stringify({ nombre: invitado[0], respuesta: respuesta })
                 });
-
-                document.getElementById('main-content').innerHTML = `
-                    <div style="font-size: 50px; margin-bottom: 20px;">🤍</div>
-                    <h2>¡Muchas Gracias!</h2>
-                    <p>Tu respuesta: <b>${respuesta}</b> ha sido registrada.</p>
-                    <p style="font-size: 14px; color: #888; margin-top: 20px;">Estamos muy emocionados de compartir este día contigo.</p>
-                `;
-            } catch (error) {
-                console.error(error);
-                alert("Hubo un problema al enviar tu respuesta. Por favor intenta de nuevo.");
-                btns.forEach(b => b.style.display = 'block');
-                document.getElementById('status').style.display = "none";
+                document.getElementById('main-content').innerHTML = "<h2>¡Gracias!</h2><p>Respuesta registrada.</p>";
+            } catch (e) {
+                alert("Error al enviar.");
             }
         }
     </script>
