@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmación de Asistencia</title>
+    <style>
+        body { font-family: 'DM Sans', sans-serif; background: #fdf8f5; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; padding: 20px; }
+        .confirm-card { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); text-align: center; max-width: 400px; width: 100%; }
+        h2 { color: #b5294e; font-family: serif; }
+        .pases-info { color: #666; margin-bottom: 20px; font-size: 14px; }
+        .btn { display: block; width: 100%; padding: 15px; margin: 10px 0; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        .btn-yes { background: #b5294e; color: white; }
+        .btn-no { background: white; border: 1px solid #ccc; color: #666; }
+        #status { margin-top: 15px; font-size: 14px; color: #1a7a4a; display: none; }
+    </style>
+</head>
+<body>
+    <div class="confirm-card" id="main-content">
+        <h2 id="guest-name">Cargando...</h2>
+        <p class="pases-info" id="pases-info"></p>
+        <p>¿Nos acompañarás en este día tan especial?</p>
+        <button class="btn btn-yes" onclick="enviar('Sí confirmo')">SÍ, CONFIRMO</button>
+        <button class="btn btn-no" onclick="enviar('No asisto')">LO SIENTO, NO PUEDO</button>
+        <div id="status">Registrando respuesta...</div>
+    </div>
+
+    <script>
+        const WEB_APP_URL = "TU_URL_DE_APPS_SCRIPT"; // PEGA AQUÍ TU URL DE GOOGLE
+        
+        // La misma lista que el archivo anterior
+        const invitados = [
+            ['Laura Custodio Carbajal', '988750894', 1],
+            ['Jorge Custodio Tello', '979287052', 3],
+        ];
+
+        // Obtener ID del link (?id=0)
+        const params = new URLSearchParams(window.location.search);
+        const id = params.get('id');
+        const invitado = invitados[id];
+
+        if (invitado) {
+            document.getElementById('guest-name').innerText = invitado[0];
+            document.getElementById('pases-info').innerText = `Pases reservados: ${invitado[2]}`;
+        } else {
+            document.getElementById('main-content').innerHTML = "<h2>Enlace no válido</h2><p>Por favor contacta a la Wedding Planner.</p>";
+        }
+
+        async function enviar(respuesta) {
+            document.getElementById('status').style.display = "block";
+            try {
+                await fetch(WEB_APP_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    body: JSON.stringify({
+                        nombre: invitado[0],
+                        pases: invitado[2],
+                        respuesta: respuesta
+                    })
+                });
+                document.getElementById('main-content').innerHTML = "<h2>¡Gracias!</h2><p>Tu respuesta ha sido enviada con éxito.</p>";
+            } catch (e) {
+                alert("Error al enviar. Intenta de nuevo.");
+            }
+        }
+    </script>
+</body>
+</html>
