@@ -3,64 +3,152 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Confirmación de Asistencia</title>
+    <title>Confirmación de Asistencia - Boda Jenny & Rafael</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'DM Sans', sans-serif; background: #fdf8f5; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; padding: 20px; }
-        .confirm-card { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); text-align: center; max-width: 400px; width: 100%; }
-        h2 { color: #b5294e; font-family: serif; }
-        .pases-info { color: #666; margin-bottom: 20px; font-size: 14px; }
-        .btn { display: block; width: 100%; padding: 15px; margin: 10px 0; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; transition: 0.3s; }
-        .btn-yes { background: #b5294e; color: white; }
-        .btn-no { background: white; border: 1px solid #ccc; color: #666; }
-        #status { margin-top: 15px; font-size: 14px; color: #1a7a4a; display: none; }
+        :root { --rose: #b5294e; --dark: #1a1018; --bg: #fdf8f5; }
+        body { font-family: 'DM Sans', sans-serif; background: var(--bg); display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; padding: 20px; color: var(--dark); }
+        .confirm-card { background: white; padding: 40px 30px; border-radius: 25px; box-shadow: 0 15px 35px rgba(0,0,0,0.08); text-align: center; max-width: 400px; width: 100%; border: 1px solid #f0e0e8; }
+        h2 { color: var(--rose); font-family: 'Cormorant Garamond', serif; font-size: 28px; margin-bottom: 10px; }
+        .guest-name { font-size: 20px; font-weight: 500; margin-bottom: 5px; color: var(--dark); }
+        .pases-info { color: #888; margin-bottom: 25px; font-size: 15px; text-transform: uppercase; letter-spacing: 1px; }
+        .instruction { font-size: 16px; margin-bottom: 25px; line-height: 1.5; color: #555; }
+        .btn { display: block; width: 100%; padding: 16px; margin: 12px 0; border: none; border-radius: 12px; font-weight: 600; cursor: pointer; transition: 0.3s; font-size: 15px; letter-spacing: 0.5px; }
+        .btn-yes { background: var(--rose); color: white; box-shadow: 0 4px 15px rgba(181, 41, 78, 0.2); }
+        .btn-yes:hover { background: #962241; transform: translateY(-2px); }
+        .btn-no { background: white; border: 1px solid #ddd; color: #777; }
+        .btn-no:hover { background: #f9f9f9; }
+        #status { margin-top: 20px; font-size: 14px; color: #1a7a4a; display: none; font-weight: 500; }
+        .loading-dots:after { content: ' .'; animation: dots 1s steps(5, end) infinite; }
+        @keyframes dots { 0%, 20% { color: rgba(0,0,0,0); text-shadow: .2em 0 0 rgba(0,0,0,0), .4em 0 0 rgba(0,0,0,0); } 40% { color: #1a7a4a; text-shadow: .2em 0 0 rgba(0,0,0,0), .4em 0 0 rgba(0,0,0,0); } 60% { text-shadow: .2em 0 0 #1a7a4a, .4em 0 0 rgba(0,0,0,0); } 80%, 100% { text-shadow: .2em 0 0 #1a7a4a, .4em 0 0 #1a7a4a; } }
     </style>
 </head>
 <body>
+
     <div class="confirm-card" id="main-content">
-        <h2 id="guest-name">Cargando...</h2>
-        <p class="pases-info" id="pases-info"></p>
-        <p>¿Nos acompañarás en este día tan especial?</p>
-        <button class="btn btn-yes" onclick="enviar('Sí confirmo')">SÍ, CONFIRMO</button>
-        <button class="btn btn-no" onclick="enviar('No asisto')">LO SIENTO, NO PUEDO</button>
-        <div id="status">Registrando respuesta...</div>
+        <h2>Confirmación</h2>
+        <div class="guest-name" id="guest-name">Cargando...</div>
+        <div class="pases-info" id="pases-info"></div>
+        <p class="instruction">¿Nos acompañarás en este día tan especial para Jenny & Rafael?</p>
+        
+        <button class="btn btn-yes" onclick="enviar('Sí confirmo')">SÍ, CONFIRMO ASISTENCIA</button>
+        <button class="btn btn-no" onclick="enviar('No asisto')">LO SIENTO, NO PODRÉ IR</button>
+        
+        <div id="status" class="loading-dots">Enviando respuesta</div>
     </div>
 
     <script>
-        const WEB_APP_URL = "TU_URL_DE_APPS_SCRIPT"; // PEGA AQUÍ TU URL DE GOOGLE
-        
-        // La misma lista que el archivo anterior
+        // --- 1. CONFIGURACIÓN ---
+        const WEB_APP_URL = "TU_URL_DE_APPS_SCRIPT_AQUI"; 
+
         const invitados = [
-            ['Laura Custodio Carbajal', '988750894', 1],
-            ['Jorge Custodio Tello', '979287052', 3],
+            // --- JENNY ---
+            ['LAURA CUSTODIO CARBAJAL','988750894',1], ['JORGE CUSTODIO TELLO','979287052',3],
+            ['MARÍA CUSTODIO CARBAJAL','942192139',1], ['WENDY FIGUEROA CUSTODIO','920045100',1],
+            ['SIMÓN CUSTODIO CARBAJAL','979181111',2], ['JUAN CUSTODIO ROJAS','968684589',2],
+            ['BETO CUSTODIO CARBAJAL','990203116',1], ['WISTON AURICH LORA','979910053',2],
+            ['GUILLERMO AURICH CUSTODIO','978088884',2], ['WISTON AURICH CUSTODIO','977844752',2],
+            ['YULIANA CUSTODIO CARBAJAL','978881904',3], ['WILLIAM DANIEL CUSTODIO CARBAJAL','979832772',2],
+            ['CARLOS CUSTODIO CARBAJAL','979603418',1], ['CARMEN OYOLA','936940490',1],
+            ['CLAUDIA CUSTODIO OYOLA','917412969',2], ['DIANA CUSTODIO OYOLA','920415391',2],
+            ['MARLENE CUSTODIO CARBAJAL','978006403',1], ['ADRIANA VARGAS CUSTODIO','920741054',1],
+            ['ALEJANDRO VARGAS CUSTODIO','996553633',2], ['LILIANA CUSTODIO CARBAJAL','970858861',1],
+            ['DANNY VALIENTE CUSTODIO','979154444',2], ['ROBERTO VALIENTE CUSTODIO','+50378869658',1],
+            ['NELLY CARBAJAL VARGAS','+13057426056',2], ['LUIS CEDRÓN AGAPITO','949903392',2],
+            ['NELY LUCIA CUSTODIO MENDOZA','947011219',1], ['CRISTINA CUSTODIO MENDOZA','955523605',1],
+            ['EDWARD COTRINA','979694440',2], ['ANGELA DIAZ RIOJA','968747656',2],
+            ['CARLOS ROMERO','964516907',2], ['DANTE SAAVEDRA','979608528',2],
+            ['JUAN CARLOS CUSTODIO ROSALES','996344415',2], ['CLAUDIA HIDALGO PALACIOS','952240637',2],
+            ['DANIELA BENDEZU BARNUEVO','977967920',2], ['JOSE JIMENEZ','974154725',2],
+            ['JORGE HUAMANCHUMO MERINO','947848647',2], ['JUAN BACA','959419819',2],
+            ['EMMANUEL HURTADO NOBLECILLA','939492800',2], ['ROGER CONDE MONCADA','943544366',2],
+            ['BRYAN RAFAEL HIDALGO','965153918',2], ['ISABELA GARCÍA VINATEA','952180217',2],
+            ['DIANA PACHECO BRICEÑO','969660753',1], ['ELENA AGUILAR ONOFRE','961093560',1],
+            ['ORIALIZ VELASQUEZ DEL CARPIO','984424782',1], ['DRA EDITH CEDEÑO ASCOY','991405055',2],
+            ['FIORELLA MELENDEZ RAMIREZ','959443971',1], ['CINTHYA CIEZA','956019389',2],
+            ['DANIELLA SEVILLA SILVA','996940342',1], ['JHEAN GABRIEL GONZALES','952041979',2],
+            ['FIORELA COROLADO','913151643',2], ['ALDO RIOS FLORES','933876179',2],
+            ['ALESSANDRA CENTENO','958195480',1], ['OSCAR VARGAS','983107925',1],
+            ['JULIA VASQUEZ','994937309',2], ['CARLOS CARCAUSTO','955809800',2],
+            ['MARINA HUAMAN','966816811',1], ['DR ELLIOT RODRIGUEZ','994615716',2],
+            ['DR SAIRE','980059216',2], ['RUHT VILLARROEL','929283541',2],
+            ['SONIA CHUMPITAZI','955944993',1], ['ROSINA RUIZ','998619009',1],
+            ['BETTINA AVALOS','955203292',2], ['DR JEISON FARRO','949937577',2],
+            ['DR ROBERTO AZURIN','974218411',1], ['DR FERNANDO DEL CARPIO','955734558',2],
+            ['DR QUISPE','985995020',1], ['TIRZA INTOR','979417609',2],
+            ['DR COLLADO','992774885',1], ['DR RAUL REYES','994628059',3],
+            // --- RAFAEL ---
+            ['ROCHE GUADALUPE','999454340',2], ['ELISA ARCE','954913746',1],
+            ['ANDRES ARCE','990073751',2], ['JORGE FERNANDEZ','904542667',2],
+            ['CARLA FERNANDEZ','+34602594714',2], ['MARIA ALEJANDRA FERNANDEZ','+56965305576',2],
+            ['MARIA GRACIA FERNANDEZ','944483194',2], ['CECILIA MEDINA','946076277',2],
+            ['RUTH VALVERDE','961338057',1], ['CRISTINA NAVARRO','970008801',2],
+            ['NANCY VALVERDE','985804706',1], ['FRIDA ROSENTHAL','+19542990800',1],
+            ['JULIO PUERTAS','975555559',2], ['GABRIELA MORALES','996361957',2],
+            ['GIAN HUAMAN','962542725',2], ['JUAN CARLOS ZUÑIGA','959731513',2],
+            ['JULIO AGUILAR','938165413',2], ['RAFAEL BERRIOS','996799447',2],
+            ['JOELY FRISANCHO','958198166',3], ['GERARDO TRELLES','952280663',2],
+            ['CAROLINA CABRERA','942404048',2], ['JOSE CORNEJO','991083092',2],
+            ['NERY SARMIENTO','987004404',2], ['ARCELIA REYES','986063363',2],
+            ['RICHAR CORTEZ','994638975',1], ['MARCELA MIRANDA','994684759',2],
+            ['MARCO LA TORRE','990459964',2], ['EDSON CARHUAPOMA','922020805',2],
+            ['ANTONIO SKRABONJA','989168305',2], ['EMERSSON LOPEZ','964845661',2],
+            ['ELIANA RAMIREZ','996481492',2], ['MARGARITA MENDIOLA','993468783',2],
+            ['CARLOS RAMOS','963313227',2], ['ANTONY VALLES','917364463',2],
+            ['JOSE UGARTE','99956303',2], ['WILLIAM CARREÑO','935484057',2],
+            ['ALFREDO CALLO','942461164',2], ['ABDON VILLEGAS','950152721',2],
+            ['PAULO GUZMAN','979658550',2]
         ];
 
-        // Obtener ID del link (?id=0)
+        // --- 2. LÓGICA DE DETECCIÓN ---
         const params = new URLSearchParams(window.location.search);
         const id = params.get('id');
         const invitado = invitados[id];
 
         if (invitado) {
             document.getElementById('guest-name').innerText = invitado[0];
-            document.getElementById('pases-info').innerText = `Pases reservados: ${invitado[2]}`;
+            document.getElementById('pases-info').innerText = invitado[2] === 1 ? 'Válido para 1 persona' : `Válido para ${invitado[2]} personas`;
         } else {
-            document.getElementById('main-content').innerHTML = "<h2>Enlace no válido</h2><p>Por favor contacta a la Wedding Planner.</p>";
+            document.getElementById('main-content').innerHTML = `
+                <h2 style="color:#555">Enlace no válido</h2>
+                <p>Lo sentimos, no pudimos encontrar tu invitación personal.</p>
+                <p style="font-size:14px; color:#888">Por favor, contacta a la Wedding Planner.</p>
+            `;
         }
 
+        // --- 3. ENVÍO DE DATOS ---
         async function enviar(respuesta) {
+            if (!invitado) return;
+            
             document.getElementById('status').style.display = "block";
+            const btns = document.querySelectorAll('.btn');
+            btns.forEach(b => b.style.display = 'none'); // Ocultar botones para evitar doble clic
+
             try {
+                // Enviamos los datos al Script de Google
                 await fetch(WEB_APP_URL, {
                     method: 'POST',
                     mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         nombre: invitado[0],
                         pases: invitado[2],
-                        respuesta: respuesta
+                        respuesta: respuesta,
+                        fecha: new Date().toLocaleString()
                     })
                 });
-                document.getElementById('main-content').innerHTML = "<h2>¡Gracias!</h2><p>Tu respuesta ha sido enviada con éxito.</p>";
-            } catch (e) {
-                alert("Error al enviar. Intenta de nuevo.");
+
+                document.getElementById('main-content').innerHTML = `
+                    <div style="font-size: 50px; margin-bottom: 20px;">🤍</div>
+                    <h2>¡Muchas Gracias!</h2>
+                    <p>Tu respuesta: <b>${respuesta}</b> ha sido registrada.</p>
+                    <p style="font-size: 14px; color: #888; margin-top: 20px;">Estamos muy emocionados de compartir este día contigo.</p>
+                `;
+            } catch (error) {
+                console.error(error);
+                alert("Hubo un problema al enviar tu respuesta. Por favor intenta de nuevo.");
+                btns.forEach(b => b.style.display = 'block');
+                document.getElementById('status').style.display = "none";
             }
         }
     </script>
