@@ -12,20 +12,27 @@
         --bg-overlay: rgba(253, 248, 245, 0.9); 
     }
 
-    body { 
+ body { 
         font-family: 'DM Sans', sans-serif; 
-        /* NOMBRE CORREGIDO: fondo_novios.JPEG */
-        background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), 
-                    url('fondo_novios.JPEG'); 
+        background: linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.1)), 
+                    url('fondo_novios.JPEG'); /* <--- Asegúrate que el nombre sea exacto */
         background-size: cover; 
         background-position: center; 
         background-attachment: fixed; 
         display: flex; 
-        align-items: center; 
-        justify-content: center; 
+        align-items: center; /* Mantiene la tarjeta centrada verticalmente */
+        
+        /* --- ESTOS SON LOS CAMBIOS CLAVE --- */
+        justify-content: flex-end; /* Mueve la tarjeta a la DERECHA */
+        padding-right: 10%; /* Añade un espacio elegante desde el borde derecho */
+        /* ------------------------------------ */
+        
         min-height: 100vh; 
         margin: 0; 
-        padding: 20px; 
+        padding-left: 20px; /* Margen de seguridad para móviles */
+        padding-top: 20px;
+        padding-bottom: 20px;
+        box-sizing: border-box; /* Asegura que el padding no afecte el ancho total */
     }
 
     .confirm-card { 
