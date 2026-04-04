@@ -12,26 +12,26 @@
         --dark-shadow: rgba(0, 0, 0, 0.85); 
     }
 
-    /* Reseteo básico para evitar espacios en blanco */
+    /* Reseteo para eliminar bordes blancos en celulares */
     html, body {
         margin: 0;
         padding: 0;
         height: 100%;
         width: 100%;
-        background-color: #1a1018; /* Color de respaldo mientras carga la foto */
+        background-color: #1a1018; /* Color de respaldo */
     }
 
     body { 
         font-family: 'DM Sans', sans-serif; 
-        /* CONFIGURACIÓN DE IMAGEN: Se ancla arriba para proteger los rostros */
-        background-image: linear-gradient(to bottom, rgba(0,0,0,0) 30%, rgba(0,0,0,0.8) 100%), url('fondo_novios.jpg');
+        /* RUTA ACTUALIZADA A LA NUEVA FOTO VERTICAL */
+        background-image: linear-gradient(to bottom, rgba(0,0,0,0) 35%, rgba(0,0,0,0.9) 100%), url('bodanovios.jpg');
         background-size: cover; 
-        background-position: center top; 
+        background-position: center 15%; /* Mantiene los rostros visibles arriba */
         background-repeat: no-repeat;
         background-attachment: fixed; 
         
         display: flex; 
-        align-items: flex-end; /* Empuja el cuadro de confirmación al final de la pantalla */
+        align-items: flex-end; /* Contenido al fondo de la pantalla */
         justify-content: center; 
         min-height: 100vh; 
         overflow-x: hidden;
@@ -46,7 +46,7 @@
         box-sizing: border-box;
     }
 
-    /* Textos con sombra reforzada para legibilidad sobre cualquier fondo */
+    /* Títulos y Nombres */
     h2 { 
         color: var(--gold); 
         font-family: 'Cormorant Garamond', serif; 
@@ -82,7 +82,7 @@
         text-shadow: 1px 1px 10px var(--dark-shadow);
     }
 
-    /* Botones estilizados */
+    /* Botones de acción */
     .btn { 
         display: block; 
         width: 100%; 
@@ -124,13 +124,14 @@
         text-shadow: 1px 1px 5px var(--dark-shadow);
     }
 
-    /* AJUSTE PARA MÓVILES: Forzamos que el contenido empiece después del rostro */
+    /* REGLA DE ORO PARA MÓVILES: Deja el 55% superior de la pantalla libre */
     @media (max-width: 600px) {
         body {
-            background-position: center 10%; /* Sube un poco más la imagen en móviles */
+            background-position: center 10%; /* Sube la foto un poco más en pantallas cortas */
         }
         .confirm-card {
-            margin-top: 45vh; /* Crea un espacio vacío arriba para ver a los novios */
+            margin-top: 55vh; /* Asegura que el texto empiece después de la mitad de la pantalla */
+            padding-bottom: 50px;
         }
         h2 { font-size: 28px; }
         .guest-name { font-size: 22px; }
