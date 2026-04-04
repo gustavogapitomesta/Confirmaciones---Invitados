@@ -9,46 +9,48 @@
     :root { 
         --gold: #d4af37; 
         --white: #ffffff; 
-        --dark-shadow: rgba(0, 0, 0, 0.8); 
+        --dark-shadow: rgba(0, 0, 0, 0.85); 
     }
 
-    body, html {
+    /* Reseteo básico para evitar espacios en blanco */
+    html, body {
         margin: 0;
         padding: 0;
         height: 100%;
         width: 100%;
+        background-color: #1a1018; /* Color de respaldo mientras carga la foto */
     }
 
     body { 
         font-family: 'DM Sans', sans-serif; 
-        /* AJUSTE CRÍTICO DE LA FOTO */
-        background-image: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.8) 100%), url('fondo_novios.jpg');
+        /* CONFIGURACIÓN DE IMAGEN: Se ancla arriba para proteger los rostros */
+        background-image: linear-gradient(to bottom, rgba(0,0,0,0) 30%, rgba(0,0,0,0.8) 100%), url('fondo_novios.jpg');
         background-size: cover; 
-        background-position: 50% 20%; /* Mueve la foto un poco hacia abajo para centrar los rostros */
+        background-position: center top; 
         background-repeat: no-repeat;
         background-attachment: fixed; 
         
         display: flex; 
-        align-items: flex-end; 
+        align-items: flex-end; /* Empuja el cuadro de confirmación al final de la pantalla */
         justify-content: center; 
         min-height: 100vh; 
         overflow-x: hidden;
     }
 
-    /* Capa de seguridad para asegurar que el contenido no suba demasiado */
     .confirm-card { 
         background: transparent; 
-        padding: 20px 25px 60px 25px; /* Más espacio abajo para control */
+        padding: 20px 25px 40px 25px; 
         text-align: center; 
         max-width: 450px; 
         width: 100%; 
         box-sizing: border-box;
     }
 
+    /* Textos con sombra reforzada para legibilidad sobre cualquier fondo */
     h2 { 
         color: var(--gold); 
         font-family: 'Cormorant Garamond', serif; 
-        font-size: 34px; 
+        font-size: 32px; 
         margin: 0 0 10px 0;
         text-shadow: 2px 2px 10px var(--dark-shadow);
         letter-spacing: 1px;
@@ -64,7 +66,7 @@
 
     .pases-info { 
         color: var(--gold); 
-        margin-bottom: 25px; 
+        margin-bottom: 20px; 
         font-size: 14px; 
         text-transform: uppercase; 
         font-weight: bold;
@@ -77,9 +79,10 @@
         font-size: 16px;
         line-height: 1.4;
         margin-bottom: 25px;
-        text-shadow: 1px 1px 8px var(--dark-shadow);
+        text-shadow: 1px 1px 10px var(--dark-shadow);
     }
 
+    /* Botones estilizados */
     .btn { 
         display: block; 
         width: 100%; 
@@ -98,27 +101,36 @@
     .btn-yes { 
         background: var(--white); 
         color: #1a1018; 
-        box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.4);
     }
 
     .btn-no { 
         background: transparent; 
         border: 1px solid rgba(255,255,255,0.7); 
         color: var(--white); 
-    }
-
-    #status { 
-        margin-top: 20px; 
-        font-size: 15px; 
-        color: var(--gold); 
-        display: none; 
         text-shadow: 1px 1px 5px var(--dark-shadow);
     }
 
-    /* Ajuste específico para que el texto no tape a los novios en pantallas largas */
-    @media (min-width: 320px) and (max-width: 480px) {
+    .btn:active {
+        transform: scale(0.96);
+    }
+
+    #status { 
+        margin-top: 15px; 
+        font-size: 15px; 
+        color: var(--gold); 
+        display: none; 
+        font-weight: bold;
+        text-shadow: 1px 1px 5px var(--dark-shadow);
+    }
+
+    /* AJUSTE PARA MÓVILES: Forzamos que el contenido empiece después del rostro */
+    @media (max-width: 600px) {
+        body {
+            background-position: center 10%; /* Sube un poco más la imagen en móviles */
+        }
         .confirm-card {
-            margin-top: 50vh; /* Fuerza al contenido a empezar desde la mitad para abajo */
+            margin-top: 45vh; /* Crea un espacio vacío arriba para ver a los novios */
         }
         h2 { font-size: 28px; }
         .guest-name { font-size: 22px; }
