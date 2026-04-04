@@ -7,70 +7,121 @@
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
 <style>
     :root { 
-        --rose: #b5294e; 
-        --dark: #1a1018; 
-        --bg-overlay: rgba(253, 248, 245, 0.9); 
+        --gold: #d4af37; /* Dorado elegante para los nombres */
+        --white: #ffffff; 
+        --dark-shadow: rgba(0, 0, 0, 0.7); 
     }
 
     body { 
         font-family: 'DM Sans', sans-serif; 
-        background: linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.1)), 
-                    url('fondo_novios.JPEG'); 
+        /* Configuración de la foto de fondo */
+        background-image: linear-gradient(to bottom, rgba(0,0,0,0) 20%, rgba(0,0,0,0.8) 100%), url('fondo_novios.jpg');
         background-size: cover; 
         background-position: center; 
         background-attachment: fixed; 
+        
         display: flex; 
-        align-items: center; 
-        justify-content: flex-end; /* Empuja el recuadro a la derecha */
+        align-items: flex-end; /* Empuja todo al tercio inferior */
+        justify-content: center; 
         min-height: 100vh; 
         margin: 0; 
-        padding: 40px; /* Espacio general */
-        box-sizing: border-box;
+        padding: 0; 
+        overflow-x: hidden;
     }
 
     .confirm-card { 
-        background: var(--bg-overlay); 
-        backdrop-filter: blur(8px);
-        padding: 40px 30px; 
-        border-radius: 25px; 
-        box-shadow: 0 15px 35px rgba(0,0,0,0.2); 
+        background: transparent; 
+        padding: 40px 25px; 
         text-align: center; 
-        max-width: 380px; 
+        max-width: 450px; 
         width: 100%; 
-        border: 1px solid rgba(255,255,255,0.4); 
-        /* Margen derecho para que no pegue al borde de la pantalla */
-        margin-right: 5%; 
-    }
-    
-    /* AJUSTE PARA CELULARES: En pantallas chicas, se centra para que no se corte */
-    @media (max-width: 768px) {
-        body {
-            justify-content: center;
-            padding: 20px;
-        }
-        .confirm-card {
-            margin-right: 0;
-        }
+        box-sizing: border-box;
+        margin-bottom: 30px; /* Espacio de seguridad al final */
     }
 
-    h2, p, .guest-name { color: var(--dark); }
-    h2 { color: var(--rose); font-family: 'Cormorant Garamond', serif; font-size: 28px; }
-    .guest-name { font-size: 22px; margin: 10px 0; font-weight: 500; }
-    .pases-info { color: #666; margin-bottom: 25px; font-size: 14px; text-transform: uppercase; }
-
-    .btn {
-        width: 100%;
-        padding: 15px;
-        margin: 10px 0;
-        border: none;
-        border-radius: 12px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: 0.3s;
+    /* Estilos de Texto con Sombra para Legibilidad Alta */
+    h2 { 
+        color: var(--gold); 
+        font-family: 'Cormorant Garamond', serif; 
+        font-size: 34px; 
+        margin: 0 0 10px 0;
+        text-shadow: 2px 2px 8px var(--dark-shadow);
+        letter-spacing: 1px;
     }
-    .btn-yes { background: var(--rose); color: white; }
-    .btn-no { background: white; color: #666; border: 1px solid #ddd; }
-    #status { display: none; margin-top: 15px; font-size: 14px; color: #666; }
+
+    .guest-name { 
+        color: var(--white);
+        font-size: 24px; 
+        margin-bottom: 5px; 
+        font-weight: 500; 
+        text-shadow: 1px 1px 10px var(--dark-shadow);
+    }
+
+    .pases-info { 
+        color: var(--gold); 
+        margin-bottom: 25px; 
+        font-size: 14px; 
+        text-transform: uppercase; 
+        font-weight: bold;
+        letter-spacing: 2px;
+        text-shadow: 1px 1px 5px var(--dark-shadow);
+    }
+
+    p {
+        color: var(--white);
+        font-size: 16px;
+        line-height: 1.5;
+        margin-bottom: 25px;
+        text-shadow: 1px 1px 8px var(--dark-shadow);
+    }
+
+    /* Botones Modernos */
+    .btn { 
+        display: block; 
+        width: 100%; 
+        padding: 18px; 
+        margin: 15px 0; 
+        border: none; 
+        border-radius: 50px; /* Bordes muy redondeados */
+        font-weight: 700; 
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        cursor: pointer; 
+        transition: transform 0.2s, background 0.3s; 
+    }
+
+    .btn-yes { 
+        background: var(--white); 
+        color: #1a1018; 
+        box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    }
+
+    .btn-no { 
+        background: transparent; 
+        border: 1px solid rgba(255,255,255,0.6); 
+        color: var(--white); 
+    }
+
+    .btn:active {
+        transform: scale(0.96);
+    }
+
+    #status { 
+        margin-top: 20px; 
+        font-size: 15px; 
+        color: var(--gold); 
+        display: none; 
+        font-weight: bold;
+        text-shadow: 1px 1px 5px var(--dark-shadow);
+    }
+
+    /* Ajuste para pantallas muy pequeñas */
+    @media (max-height: 600px) {
+        h2 { font-size: 26px; }
+        .guest-name { font-size: 20px; }
+        .confirm-card { padding: 20px; }
+    }
 </style>
 </head>
 <body>
