@@ -5,75 +5,76 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Confirmación - Maria Claudia & Gustavo</title>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
-    <style>
-/* Reemplaza el bloque de estilos por este extracto */
-:root { --gold: #c9a96e; }
+<style>
+    :root { --gold: #c9a96e; }
 
-body, html { 
-    margin: 0; padding: 0; height: 100%; width: 100%; 
-    background: #000; font-family: 'Montserrat', sans-serif; 
-}
+    body, html { 
+        margin: 0; padding: 0; height: 100%; width: 100%; 
+        background: #000; font-family: 'Montserrat', sans-serif;
+    }
 
-.bg-photo {
-    position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background-image: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.1) 100%), url('novios.jpeg');
-    background-size: cover;
-    background-position: center center;
-    z-index: 1;
-}
+    .bg-photo {
+        position: fixed;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background-image: linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0) 50%), url('novios.jpeg');
+        background-size: cover;
+        background-position: center center;
+        z-index: 1;
+    }
 
-.content {
-    position: relative;
-    z-index: 2;
-    height: 100vh;
-    display: flex;
-    /* CAMBIO CLAVE: Alineación al inicio (arriba) */
-    align-items: flex-start; 
-    justify-content: center;
-    padding-top: 40px; /* Margen superior para que no pegue al borde */
-    box-sizing: border-box;
-}
+    /* SOLUCIÓN DEFINITIVA: Posicionamiento fijo arriba */
+    .content {
+        position: fixed; /* Cambiado de relative a fixed */
+        top: 20px;       /* Distancia exacta desde el borde superior */
+        left: 0;
+        right: 0;
+        z-index: 2;
+        display: flex;
+        justify-content: center;
+        pointer-events: none; /* Permite que los clics pasen si fuera necesario */
+    }
 
-.form-card {
-    background: rgba(255, 255, 255, 0.70); /* Más transparente aún */
-    backdrop-filter: blur(10px);
-    padding: 20px;
-    border-radius: 15px;
-    width: 85%;
-    max-width: 300px; /* Un poco más angosto */
-    text-align: center;
-    border: 1px solid rgba(255,255,255,0.4);
-}
+    .form-card {
+        pointer-events: auto; /* Habilita clics solo en el cuadro */
+        background: rgba(255, 255, 255, 0.65); /* Más transparente */
+        backdrop-filter: blur(12px); /* Efecto cristal más fuerte */
+        padding: 15px 20px;
+        border-radius: 15px;
+        width: 85%;
+        max-width: 290px;
+        text-align: center;
+        border: 1px solid rgba(255,255,255,0.4);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    }
 
-h1 { 
-    font-family: 'Cormorant Garamond', serif; 
-    font-size: 18px; /* Letra más pequeña y elegante */
-    margin: 0 0 5px 0; 
-    color: #1a1a1a; 
-}
+    h1 { 
+        font-family: 'Cormorant Garamond', serif; 
+        font-size: 18px; 
+        margin: 0 0 2px 0; 
+        color: #1a1a1a; 
+    }
 
-.subtitle { 
-    font-size: 9px; 
-    color: #444; 
-    margin-bottom: 15px; 
-    text-transform: uppercase; 
-    letter-spacing: 2px;
-}
+    .subtitle { 
+        font-size: 9px; 
+        color: #333; 
+        margin-bottom: 12px; 
+        text-transform: uppercase; 
+        letter-spacing: 1px;
+    }
 
-label { display: block; font-size: 9px; font-weight: 700; text-transform: uppercase; margin-bottom: 5px; color: var(--gold); }
+    label { display: block; font-size: 9px; font-weight: 700; margin-bottom: 4px; color: var(--gold); text-transform: uppercase; }
 
-select, input {
-    width: 100%; padding: 8px; margin-bottom: 10px; border-radius: 6px; 
-    border: 1px solid rgba(0,0,0,0.1); background: rgba(255,255,255,0.6);
-    font-size: 13px; box-sizing: border-box;
-}
+    select, input {
+        width: 100%; padding: 8px; margin-bottom: 10px; border-radius: 6px; 
+        border: 1px solid rgba(0,0,0,0.1); background: rgba(255,255,255,0.7);
+        font-size: 13px; box-sizing: border-box; outline: none;
+    }
 
-.btn-confirm {
-    background: var(--gold); color: white; border: none; padding: 12px; width: 100%;
-    border-radius: 8px; font-weight: 600; font-size: 12px; cursor: pointer; text-transform: uppercase;
-}
-    </style>
+    .btn-confirm {
+        background: var(--gold); color: white; border: none; padding: 12px; width: 100%;
+        border-radius: 8px; font-weight: 600; font-size: 12px; cursor: pointer; text-transform: uppercase;
+    }
+</style>
 </head>
 <body>
 
