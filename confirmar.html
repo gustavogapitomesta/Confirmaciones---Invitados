@@ -76,33 +76,35 @@
         }
     }
 
-    document.getElementById('confirmForm').onsubmit = function(e) {
+        document.getElementById('confirmForm').onsubmit = function(e) {
         e.preventDefault();
         const btn = document.getElementById('btnSubmit');
         btn.disabled = true;
         btn.innerText = "ENVIANDO...";
 
+        // Recolectar nombres de acompañantes si existen
         const acompInputs = document.querySelectorAll('.acomp-input');
         const listaAcomp = Array.from(acompInputs).map(i => i.value).join(', ');
 
+        // Preparar los datos para el envío
         const formData = new URLSearchParams();
-        formData.append('invitado', nombreInvitado);
+        formData.append('invitado', nombreInvitado); // Nombre que viene del link
         formData.append('asistencia', document.getElementById('asistencia').value);
         formData.append('pases', document.getElementById('pasesConfirmados').value || 1);
-        formData.append('acompanantes', listaAcomp);
+        formData.append('acompanantes', listaAcomp || "Ninguno");
 
-        // AQUÍ HE PEGADO TU LINK CORRECTO
+        // TU URL DE GOOGLE (Asegúrate de que sea la tuya terminada en /exec)
         fetch('https://script.google.com/macros/s/AKfycbznHy5z_K7ZKLiVxuBN9yJ7vJ64G8J8ZyUpQLyAMbmGAul44TP9Ko-ftGHD8xZvD06i/exec', {
             method: 'POST',
             body: formData,
             mode: 'no-cors'
         }).then(() => {
             document.getElementById('formCard').innerHTML = `
-                <h1 style="font-size:20px; font-family:Cormorant Gramond;">¡Muchas Gracias!</h1>
-                <p style="font-size:13px; color:#333;">Tu respuesta ha sido enviada correctamente.</p>`;
+                <h1 style="font-size:20px; font-family:Cormorant Garamond;">¡Muchas Gracias!</h1>
+                <p style="font-size:13px; color:#333;">Tu respuesta ha sido registrada correctamente.</p>`;
         }).catch((error) => {
             console.error('Error:', error);
-            alert("Hubo un error al enviar. Revisa la conexión.");
+            alert("Error al enviar. Intenta de nuevo.");
             btn.disabled = false;
             btn.innerText = "CONFIRMAR";
         });
