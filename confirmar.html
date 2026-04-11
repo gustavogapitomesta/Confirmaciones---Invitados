@@ -6,16 +6,20 @@
     <title>Confirmación - Maria Claudia & Gustavo</title>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
     <style>
-:root { --gold: #c9a96e; --white: #ffffff; }
-body, html { margin: 0; padding: 0; height: 100%; width: 100%; background: #000; font-family: 'Montserrat', sans-serif; overflow: hidden; }
+/* Reemplaza el bloque de estilos por este extracto */
+:root { --gold: #c9a96e; }
 
-/* Foto de fondo optimizada */
+body, html { 
+    margin: 0; padding: 0; height: 100%; width: 100%; 
+    background: #000; font-family: 'Montserrat', sans-serif; 
+}
+
 .bg-photo {
     position: fixed;
     top: 0; left: 0; width: 100%; height: 100%;
-    background-image: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.5) 100%), url('novios.jpeg');
+    background-image: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.1) 100%), url('novios.jpeg');
     background-size: cover;
-    background-position: center 5%; /* Sube un poco la foto para centrar rostros */
+    background-position: center center;
     z-index: 1;
 }
 
@@ -24,36 +28,35 @@ body, html { margin: 0; padding: 0; height: 100%; width: 100%; background: #000;
     z-index: 2;
     height: 100vh;
     display: flex;
-    align-items: center; /* CENTRADO VERTICAL ABSOLUTO */
+    /* CAMBIO CLAVE: Alineación al inicio (arriba) */
+    align-items: flex-start; 
     justify-content: center;
-    padding: 20px;
+    padding-top: 40px; /* Margen superior para que no pegue al borde */
     box-sizing: border-box;
 }
 
 .form-card {
-    background: rgba(255, 255, 255, 0.75); /* MÁS TRANSPARENTE Y SUTIL */
-    backdrop-filter: blur(8px); /* EFECTO CRISTAL ELEGANTE */
-    padding: 25px;
-    border-radius: 20px;
-    box-shadow: 0 15px 35px rgba(0,0,0,0.2);
-    width: 90%;
-    max-width: 320px; /* CUADRO MÁS PEQUEÑO */
+    background: rgba(255, 255, 255, 0.70); /* Más transparente aún */
+    backdrop-filter: blur(10px);
+    padding: 20px;
+    border-radius: 15px;
+    width: 85%;
+    max-width: 300px; /* Un poco más angosto */
     text-align: center;
     border: 1px solid rgba(255,255,255,0.4);
 }
 
 h1 { 
     font-family: 'Cormorant Garamond', serif; 
-    font-size: 20px; /* LETRA MÁS PEQUEÑA Y FINA */
+    font-size: 18px; /* Letra más pequeña y elegante */
     margin: 0 0 5px 0; 
     color: #1a1a1a; 
-    font-weight: 600;
 }
 
 .subtitle { 
-    font-size: 10px; 
+    font-size: 9px; 
     color: #444; 
-    margin-bottom: 20px; 
+    margin-bottom: 15px; 
     text-transform: uppercase; 
     letter-spacing: 2px;
 }
@@ -61,14 +64,14 @@ h1 {
 label { display: block; font-size: 9px; font-weight: 700; text-transform: uppercase; margin-bottom: 5px; color: var(--gold); }
 
 select, input {
-    width: 100%; padding: 10px; margin-bottom: 12px; border-radius: 8px; 
-    border: 1px solid rgba(0,0,0,0.08); background: rgba(255,255,255,0.8);
-    font-size: 14px; box-sizing: border-box; outline: none;
+    width: 100%; padding: 8px; margin-bottom: 10px; border-radius: 6px; 
+    border: 1px solid rgba(0,0,0,0.1); background: rgba(255,255,255,0.6);
+    font-size: 13px; box-sizing: border-box;
 }
 
 .btn-confirm {
-    background: var(--gold); color: white; border: none; padding: 14px; width: 100%;
-    border-radius: 10px; font-weight: 600; font-size: 13px; cursor: pointer; text-transform: uppercase;
+    background: var(--gold); color: white; border: none; padding: 12px; width: 100%;
+    border-radius: 8px; font-weight: 600; font-size: 12px; cursor: pointer; text-transform: uppercase;
 }
     </style>
 </head>
