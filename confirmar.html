@@ -4,86 +4,114 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Confirmación - Maria Claudia & Gustavo</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
-<style>
-    :root { --gold: #c9a96e; }
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root { --gold: #c9a96e; }
 
-    body, html { 
-        margin: 0; padding: 0; height: 100%; width: 100%; 
-        background: #000; font-family: 'Montserrat', sans-serif;
-    }
+        body, html { 
+            margin: 0; padding: 0; height: 100%; width: 100%; 
+            background: #000; font-family: 'Montserrat', sans-serif;
+            overflow: hidden; 
+        }
 
-    .bg-photo {
-        position: fixed;
-        top: 0; left: 0; width: 100%; height: 100%;
-        background-image: linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0) 50%), url('novios.jpeg');
-        background-size: cover;
-        background-position: center center;
-        z-index: 1;
-    }
+        /* Foto de fondo con degradado superior para facilitar lectura */
+        .bg-photo {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 40%), url('novios.jpeg');
+            background-size: cover;
+            background-position: center 10%;
+            z-index: 1;
+        }
 
-    /* SOLUCIÓN DEFINITIVA: Posicionamiento fijo arriba */
-    .content {
-        position: fixed; /* Cambiado de relative a fixed */
-        top: 20px;       /* Distancia exacta desde el borde superior */
-        left: 0;
-        right: 0;
-        z-index: 2;
-        display: flex;
-        justify-content: center;
-        pointer-events: none; /* Permite que los clics pasen si fuera necesario */
-    }
+        /* CUADRO POSICIONADO ARRIBA - CORRECCIÓN DEFINITIVA */
+        .form-card {
+            position: fixed;    
+            top: 25px;          /* Lo pega al borde superior */
+            left: 50%;
+            transform: translateX(-50%); 
+            z-index: 100;       
+            
+            background: rgba(255, 255, 255, 0.65); 
+            backdrop-filter: blur(12px); 
+            padding: 15px 20px;
+            border-radius: 15px;
+            width: 85%;
+            max-width: 285px; 
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.4);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
 
-    .form-card {
-        pointer-events: auto; /* Habilita clics solo en el cuadro */
-        background: rgba(255, 255, 255, 0.65); /* Más transparente */
-        backdrop-filter: blur(12px); /* Efecto cristal más fuerte */
-        padding: 15px 20px;
-        border-radius: 15px;
-        width: 85%;
-        max-width: 290px;
-        text-align: center;
-        border: 1px solid rgba(255,255,255,0.4);
-        box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-    }
+        h1 { 
+            font-family: 'Cormorant Gramond', serif; 
+            font-size: 18px; 
+            margin: 0 0 2px 0; 
+            color: #1a1a1a; 
+            font-weight: 600;
+        }
 
-    h1 { 
-        font-family: 'Cormorant Garamond', serif; 
-        font-size: 18px; 
-        margin: 0 0 2px 0; 
-        color: #1a1a1a; 
-    }
+        .subtitle { 
+            font-size: 9px; 
+            color: #333; 
+            margin-bottom: 12px; 
+            text-transform: uppercase; 
+            letter-spacing: 1px;
+        }
 
-    .subtitle { 
-        font-size: 9px; 
-        color: #333; 
-        margin-bottom: 12px; 
-        text-transform: uppercase; 
-        letter-spacing: 1px;
-    }
+        label { 
+            display: block; 
+            font-size: 9px; 
+            font-weight: 700; 
+            margin-bottom: 4px; 
+            color: var(--gold); 
+            text-transform: uppercase; 
+        }
+        
+        select, input {
+            width: 100%; 
+            padding: 8px; 
+            margin-bottom: 10px; 
+            border-radius: 6px; 
+            border: 1px solid rgba(0,0,0,0.1); 
+            background: rgba(255,255,255,0.7);
+            font-size: 13px; 
+            box-sizing: border-box; 
+            outline: none;
+            font-family: 'Montserrat', sans-serif;
+        }
 
-    label { display: block; font-size: 9px; font-weight: 700; margin-bottom: 4px; color: var(--gold); text-transform: uppercase; }
+        .acomp-section {
+            background: rgba(201, 169, 110, 0.1);
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border: 1px dashed var(--gold);
+        }
 
-    select, input {
-        width: 100%; padding: 8px; margin-bottom: 10px; border-radius: 6px; 
-        border: 1px solid rgba(0,0,0,0.1); background: rgba(255,255,255,0.7);
-        font-size: 13px; box-sizing: border-box; outline: none;
-    }
+        .btn-confirm {
+            background: var(--gold); 
+            color: white; 
+            border: none; 
+            padding: 12px; 
+            width: 100%;
+            border-radius: 8px; 
+            font-weight: 600; 
+            font-size: 12px; 
+            cursor: pointer; 
+            text-transform: uppercase;
+        }
 
-    .btn-confirm {
-        background: var(--gold); color: white; border: none; padding: 12px; width: 100%;
-        border-radius: 8px; font-weight: 600; font-size: 12px; cursor: pointer; text-transform: uppercase;
-    }
-</style>
+        .btn-confirm:active { transform: scale(0.98); }
+    </style>
 </head>
 <body>
 
-<div class="bg-photo"></div>
+    <div class="bg-photo"></div>
 
-<div class="content">
     <div class="form-card" id="formCard">
         <h1>María Claudia & Gustavo</h1>
-        <p class="subtitle">Confirmación</p>
+        <p class="subtitle">Confirmación de Asistencia</p>
 
         <form id="confirmForm">
             <label>¿Nos acompañarás?</label>
@@ -104,57 +132,57 @@
             <button type="submit" class="btn-confirm">CONFIRMAR</button>
         </form>
     </div>
-</div>
 
 <script>
-const urlParams = new URLSearchParams(window.location.search);
-const pasesMax = parseInt(urlParams.get('pases')) || 1;
+    const urlParams = new URLSearchParams(window.location.search);
+    const pasesMax = parseInt(urlParams.get('pases')) || 1;
 
-function togglePases() {
-    const asis = document.getElementById('asistencia').value;
-    const container = document.getElementById('pasesContainer');
-    if (asis === 'Si' && pasesMax > 1) {
-        container.style.display = 'block';
-        const input = document.getElementById('pasesConfirmados');
-        input.value = pasesMax;
-        input.max = pasesMax;
-        generarNombresAcomp();
-    } else {
-        container.style.display = 'none';
-    }
-}
-
-document.getElementById('pasesConfirmados').oninput = generarNombresAcomp;
-
-function generarNombresAcomp() {
-    const cant = parseInt(document.getElementById('pasesConfirmados').value);
-    const container = document.getElementById('nombresAcompContainer');
-    container.innerHTML = '';
-
-    if (cant > pasesMax) {
-        alert(`Máximo pases permitidos: ${pasesMax}`);
-        document.getElementById('pasesConfirmados').value = pasesMax;
-        generarNombresAcomp();
-        return;
-    }
-
-    if (cant > 1) {
-        for (let i = 1; i < cant; i++) {
-            container.innerHTML += `
-                <label>Nombre del acompañante ${i}</label>
-                <input type="text" placeholder="Escribe aquí..." required name="acomp_${i}">
-            `;
+    function togglePases() {
+        const asis = document.getElementById('asistencia').value;
+        const container = document.getElementById('pasesContainer');
+        if (asis === 'Si' && pasesMax > 1) {
+            container.style.display = 'block';
+            const input = document.getElementById('pasesConfirmados');
+            input.value = pasesMax;
+            input.max = pasesMax;
+            generarNombresAcomp();
+        } else {
+            container.style.display = 'none';
         }
     }
-}
 
-document.getElementById('confirmForm').onsubmit = function(e) {
-    e.preventDefault();
-    document.getElementById('formCard').innerHTML = `
-        <h1 style="font-size:20px;">¡Gracias!</h1>
-        <p style="font-size:13px; color:#555;">Tu respuesta ha sido enviada.</p>
-    `;
-};
+    document.getElementById('pasesConfirmados').oninput = generarNombresAcomp;
+
+    function generarNombresAcomp() {
+        const cant = parseInt(document.getElementById('pasesConfirmados').value);
+        const container = document.getElementById('nombresAcompContainer');
+        container.innerHTML = '';
+
+        if (cant > pasesMax) {
+            alert(`Máximo pases permitidos: ${pasesMax}`);
+            document.getElementById('pasesConfirmados').value = pasesMax;
+            generarNombresAcomp();
+            return;
+        }
+
+        if (cant > 1) {
+            for (let i = 1; i < cant; i++) {
+                container.innerHTML += `
+                    <label>Nombre del acompañante ${i}</label>
+                    <input type="text" placeholder="Escribe aquí..." required name="acomp_${i}">
+                `;
+            }
+        }
+    }
+
+    document.getElementById('confirmForm').onsubmit = function(e) {
+        e.preventDefault();
+        document.getElementById('formCard').innerHTML = `
+            <h1 style="font-size:20px; font-family:Cormorant Gramond;">¡Muchas Gracias!</h1>
+            <p style="font-size:13px; color:#333;">Tu respuesta ha sido enviada correctamente.</p>
+        `;
+    };
 </script>
+
 </body>
 </html>
