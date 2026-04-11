@@ -78,32 +78,34 @@
 
         document.getElementById('confirmForm').onsubmit = function(e) {
         e.preventDefault();
-        const btn = document.getElementById('btnSubmit');
+        const btn = document.querySelector('.btn-confirm');
         btn.disabled = true;
         btn.innerText = "ENVIANDO...";
 
-        // Recolectar nombres de acompañantes si existen
-        const acompInputs = document.querySelectorAll('.acomp-input');
-        const listaAcomp = Array.from(acompInputs).map(i => i.value).join(', ');
+        // 1. Extraer nombre del invitado de la URL (?id=Nombre)
+        const params = new URLSearchParams(window.location.search);
+        const nombreParaEnviar = params.get('id') || "Invitado sin nombre";
 
-        // Preparar los datos para el envío
+        // 2. Recolectar acompañantes
+        const acompInputs = document.querySelectorAll('input[name^="acomp_"]');
+        const listaAcomp = Array.from(acompInputs).map(i => i.value).join(', ') || "Ninguno";
+
+        // 3. Empaquetar datos (DEBEN coincidir con Apps Script)
         const formData = new URLSearchParams();
-        formData.append('invitado', nombreInvitado); // Nombre que viene del link
-        formData.append('asistencia', document.getElementById('asistencia').value);
-        formData.append('pases', document.getElementById('pasesConfirmados').value || 1);
-        formData.append('acompanantes', listaAcomp || "Ninguno");
+        formData.append('p_nombre', nombreParaEnviar);
+        formData.append('p_asiste', document.getElementById('asistencia').value);
+        formData.append('p_pases', document.getElementById('pasesConfirmados').value || 1);
+        formData.append('p_acomp', listaAcomp);
 
-        // TU URL DE GOOGLE (Asegúrate de que sea la tuya terminada en /exec)
-        fetch('https://script.google.com/macros/s/AKfycbznHy5z_K7ZKLiVxuBN9yJ7vJ64G8J8ZyUpQLyAMbmGAul44TP9Ko-ftGHD8xZvD06i/exec', {
+        fetch('TU_URL_DE_APPS_SCRIPT_AQUI', {
             method: 'POST',
             body: formData,
             mode: 'no-cors'
         }).then(() => {
             document.getElementById('formCard').innerHTML = `
                 <h1 style="font-size:20px; font-family:Cormorant Garamond;">¡Muchas Gracias!</h1>
-                <p style="font-size:13px; color:#333;">Tu respuesta ha sido registrada correctamente.</p>`;
-        }).catch((error) => {
-            console.error('Error:', error);
+                <p style="font-size:13px; color:#333;">Tu respuesta ha sido recibida correctamente.</p>`;
+        }).catch(() => {
             alert("Error al enviar. Intenta de nuevo.");
             btn.disabled = false;
             btn.innerText = "CONFIRMAR";
