@@ -42,7 +42,7 @@
             <div id="pasesContainer" style="display:none;">
                 <div class="acomp-section">
                     <label>Número de pases</label>
-                    <input type="number" id="pasesConfirmados" min="1">
+                    <input type="number" id="pasesConfirmados" min="1" oninput="generarNombresAcomp()">
                     <div id="nombresAcompContainer"></div>
                 </div>
             </div>
@@ -53,62 +53,76 @@
 <script>
     const urlParams = new URLSearchParams(window.location.search);
     const pasesMax = parseInt(urlParams.get('pases')) || 1;
-    const nombreInvitado = urlParams.get('id') || "Invitado Desconocido";
+    // Captura el nombre y limpia guiones bajos por espacios para el Excel
+    const nombreInvitadoURL = (urlParams.get('id') || "Invitado Desconocido").replace(/_/g, " ");
 
     function togglePases() {
         const asis = document.getElementById('asistencia').value;
         const container = document.getElementById('pasesContainer');
-        if (asis === 'Si' && pasesMax > 1) {
+        if (asis === 'Si') {
             container.style.display = 'block';
             document.getElementById('pasesConfirmados').value = pasesMax;
             generarNombresAcomp();
-        } else { container.style.display = 'none'; }
+        } else { 
+            container.style.display = 'none'; 
+        }
     }
 
     function generarNombresAcomp() {
-        const cant = parseInt(document.getElementById('pasesConfirmados').value);
+        const cant = parseInt(document.getElementById('pasesConfirmados').value) || 0;
         const container = document.getElementById('nombresAcompContainer');
         container.innerHTML = '';
+        
+        // Evita que pongan más pases de los permitidos por el link
+        if (cant > pasesMax) {
+            alert("El número de pases no puede ser mayor a " + pasesMax);
+            document.getElementById('pasesConfirmados').value = pasesMax;
+            generarNombresAcomp();
+            return;
+        }
+
         if (cant > 1) {
             for (let i = 1; i < cant; i++) {
-                container.innerHTML += `<label>Nombre del acompañante ${i}</label><input type="text" placeholder="Escribe aquí..." required class="acomp-input">`;
+                container.innerHTML += `
+                    <label>Acompañante ${i}</label>
+                    <input type="text" placeholder="Nombre completo" required class="acomp-input">
+                `;
             }
         }
     }
 
     document.getElementById('confirmForm').onsubmit = function(e) {
-    e.preventDefault();
-    const btn = document.getElementById('btnSubmit');
-    btn.disabled = true;
-    btn.innerText = "ENVIANDO...";
+        e.preventDefault();
+        const btn = document.getElementById('btnSubmit');
+        btn.disabled = true;
+        btn.innerText = "ENVIANDO...";
 
-    // CAPTURA DEL NOMBRE DESDE LA URL
-    const params = new URLSearchParams(window.location.search);
-    const nombreInvitado = params.get('id') || "Invitado Desconocido";
+        // Recolectar nombres de acompañantes de forma segura
+        const acompInputs = document.querySelectorAll('.acomp-input');
+        const listaAcomp = Array.from(acompInputs).map(i => i.value.trim()).filter(v => v !== "").join(', ') || "Ninguno";
 
-    // RECOLECCIÓN DE ACOMPAÑANTES
-    const acompInputs = document.querySelectorAll('input[type="text"]');
-    const listaAcomp = Array.from(acompInputs).map(i => i.value).join(', ') || "Ninguno";
+        const formData = new URLSearchParams();
+        formData.append('p_nombre', nombreInvitadoURL);
+        formData.append('p_asiste', document.getElementById('asistencia').value);
+        formData.append('p_pases', document.getElementById('pasesConfirmados').value || 1);
+        formData.append('p_acomp', listaAcomp);
 
-    const formData = new URLSearchParams();
-    formData.append('p_nombre', nombreInvitado); // Debe coincidir con Apps Script
-    formData.append('p_asiste', document.getElementById('asistencia').value);
-    formData.append('p_pases', document.getElementById('pasesConfirmados').value || 1);
-    formData.append('p_acomp', listaAcomp);
-
-    fetch('TU_URL_DE_APPS_SCRIPT_AQUI', {
-        method: 'POST',
-        body: formData,
-        mode: 'no-cors'
-    }).then(() => {
-        document.getElementById('formCard').innerHTML = `
-            <h1 style="font-size:20px; font-family:Cormorant Garamond;">¡Muchas Gracias!</h1>
-            <p style="font-size:13px; color:#333;">Tu respuesta ha sido recibida correctamente.</p>`;
-    }).catch(() => {
-        alert("Error al enviar.");
-        btn.disabled = false;
-    });
-};
+        // URL DE TU SCRIPT DE GOOGLE
+        fetch('https://script.google.com/macros/s/AKfycbznHy5z_K7ZKLiVxuBN9yJ7vJ64G8J8ZyUpQLyAMbmGAul44TP9Ko-ftGHD8xZvD06i/exec', {
+            method: 'POST',
+            body: formData,
+            mode: 'no-cors'
+        }).then(() => {
+            document.getElementById('formCard').innerHTML = `
+                <h1 style="font-size:20px; font-family:Cormorant Garamond;">¡Muchas Gracias!</h1>
+                <p style="font-size:13px; color:#333;">Tu respuesta ha sido recibida correctamente.</p>`;
+        }).catch((err) => {
+            console.error(err);
+            alert("Error al enviar. Intenta de nuevo.");
+            btn.disabled = false;
+            btn.innerText = "CONFIRMAR";
+        });
+    };
 </script>
 </body>
 </html>
