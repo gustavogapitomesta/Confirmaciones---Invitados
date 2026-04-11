@@ -51,10 +51,10 @@
     </div>
 
 <script>
-    const urlParams = new URLSearchParams(window.location.search);
+    const params = new URLSearchParams(window.location.search);
     const pasesMax = parseInt(urlParams.get('pases')) || 1;
     // Captura el nombre y limpia guiones bajos por espacios para el Excel
-    const nombreInvitadoURL = (urlParams.get('id') || "Invitado Desconocido").replace(/_/g, " ");
+    const nombreCapturado = params.get('id') || "Invitado";
 
     function togglePases() {
         const asis = document.getElementById('asistencia').value;
@@ -102,7 +102,7 @@
         const listaAcomp = Array.from(acompInputs).map(i => i.value.trim()).filter(v => v !== "").join(', ') || "Ninguno";
 
         const formData = new URLSearchParams();
-        formData.append('p_nombre', nombreInvitadoURL);
+        formData.append('p_nombre', nombreCapturado);
         formData.append('p_asiste', document.getElementById('asistencia').value);
         formData.append('p_pases', document.getElementById('pasesConfirmados').value || 1);
         formData.append('p_acomp', listaAcomp);
