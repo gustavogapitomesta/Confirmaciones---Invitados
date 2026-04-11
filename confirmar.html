@@ -76,41 +76,39 @@
         }
     }
 
-        document.getElementById('confirmForm').onsubmit = function(e) {
-        e.preventDefault();
-        const btn = document.querySelector('.btn-confirm');
-        btn.disabled = true;
-        btn.innerText = "ENVIANDO...";
+    document.getElementById('confirmForm').onsubmit = function(e) {
+    e.preventDefault();
+    const btn = document.getElementById('btnSubmit');
+    btn.disabled = true;
+    btn.innerText = "ENVIANDO...";
 
-        // 1. Extraer nombre del invitado de la URL (?id=Nombre)
-        const params = new URLSearchParams(window.location.search);
-        const nombreParaEnviar = params.get('id') || "Invitado sin nombre";
+    // CAPTURA DEL NOMBRE DESDE LA URL
+    const params = new URLSearchParams(window.location.search);
+    const nombreInvitado = params.get('id') || "Invitado Desconocido";
 
-        // 2. Recolectar acompañantes
-        const acompInputs = document.querySelectorAll('input[name^="acomp_"]');
-        const listaAcomp = Array.from(acompInputs).map(i => i.value).join(', ') || "Ninguno";
+    // RECOLECCIÓN DE ACOMPAÑANTES
+    const acompInputs = document.querySelectorAll('input[type="text"]');
+    const listaAcomp = Array.from(acompInputs).map(i => i.value).join(', ') || "Ninguno";
 
-        // 3. Empaquetar datos (DEBEN coincidir con Apps Script)
-        const formData = new URLSearchParams();
-        formData.append('p_nombre', nombreParaEnviar);
-        formData.append('p_asiste', document.getElementById('asistencia').value);
-        formData.append('p_pases', document.getElementById('pasesConfirmados').value || 1);
-        formData.append('p_acomp', listaAcomp);
+    const formData = new URLSearchParams();
+    formData.append('p_nombre', nombreInvitado); // Debe coincidir con Apps Script
+    formData.append('p_asiste', document.getElementById('asistencia').value);
+    formData.append('p_pases', document.getElementById('pasesConfirmados').value || 1);
+    formData.append('p_acomp', listaAcomp);
 
-        fetch('TU_URL_DE_APPS_SCRIPT_AQUI', {
-            method: 'POST',
-            body: formData,
-            mode: 'no-cors'
-        }).then(() => {
-            document.getElementById('formCard').innerHTML = `
-                <h1 style="font-size:20px; font-family:Cormorant Garamond;">¡Muchas Gracias!</h1>
-                <p style="font-size:13px; color:#333;">Tu respuesta ha sido recibida correctamente.</p>`;
-        }).catch(() => {
-            alert("Error al enviar. Intenta de nuevo.");
-            btn.disabled = false;
-            btn.innerText = "CONFIRMAR";
-        });
-    };
+    fetch('TU_URL_DE_APPS_SCRIPT_AQUI', {
+        method: 'POST',
+        body: formData,
+        mode: 'no-cors'
+    }).then(() => {
+        document.getElementById('formCard').innerHTML = `
+            <h1 style="font-size:20px; font-family:Cormorant Garamond;">¡Muchas Gracias!</h1>
+            <p style="font-size:13px; color:#333;">Tu respuesta ha sido recibida correctamente.</p>`;
+    }).catch(() => {
+        alert("Error al enviar.");
+        btn.disabled = false;
+    });
+};
 </script>
 </body>
 </html>
