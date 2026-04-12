@@ -15,9 +15,10 @@
         }
         .form-card {
             position: fixed; top: 25px; left: 50%; transform: translateX(-50%); z-index: 100;
-            background: rgba(255, 255, 255, 0.65); backdrop-filter: blur(12px); padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.75); backdrop-filter: blur(12px); padding: 15px 20px;
             border-radius: 15px; width: 85%; max-width: 285px; text-align: center;
             border: 1px solid rgba(255,255,255,0.4); box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            max-height: 90vh; overflow-y: auto;
         }
         h1 { font-family: 'Cormorant Garamond', serif; font-size: 18px; margin: 0 0 2px 0; color: #1a1a1a; font-weight: 600; }
         .subtitle { font-size: 9px; color: #333; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px; }
@@ -39,18 +40,94 @@
                 <option value="Si">Sí, con mucho gusto</option>
                 <option value="No">No podré asistir</option>
             </select>
+            
             <div id="pasesContainer" style="display:none;">
                 <div class="acomp-section">
-                    <label>Número de pases</label>
-                    <input type="number" id="pasesConfirmados" min="1" oninput="generarNombresAcomp()">
+                    <label>Confirmar número de pases</label>
+                    <input type="number" id="pasesConfirmados" min="1" onkeyup="generarNombresAcomp()" onchange="generarNombresAcomp()">
                     <div id="nombresAcompContainer"></div>
                 </div>
             </div>
+            
             <button type="submit" class="btn-confirm" id="btnSubmit">CONFIRMAR</button>
         </form>
     </div>
 
 <script>
-    // 1. CAPTURA DE PARÁMETROS DE LA URL (Sincronizado con index)
     const urlParams = new URLSearchParams(window.location.search);
-    const
+    const pasesMax = parseInt(urlParams.get('pases')) || 1;
+    const nombreInvitadoURL = (urlParams.get('id') || "Invitado Desconocido").replace(/_/g, " ");
+
+    function togglePases() {
+        const asis = document.getElementById('asistencia').value;
+        const container = document.getElementById('pasesContainer');
+        if (asis === 'Si') {
+            container.style.display = 'block';
+            document.getElementById('pasesConfirmados').value = pasesMax;
+            generarNombresAcomp(); // Llama a la función al mostrar
+        } else { 
+            container.style.display = 'none'; 
+        }
+    }
+
+    function generarNombresAcomp() {
+        const cant = parseInt(document.getElementById('pasesConfirmados').value) || 0;
+        const container = document.getElementById('nombresAcompContainer');
+        container.innerHTML = '';
+        
+        if (cant > pasesMax) {
+            alert("El máximo de pases permitido es " + pasesMax);
+            document.getElementById('pasesConfirmados').value = pasesMax;
+            return generarNombresAcomp();
+        }
+
+        // CORRECCIÓN: Si hay 2 o más pases, pedir nombres de acompañantes
+        // Se resta 1 porque el primer pase es del invitado principal
+        if (cant > 1) {
+            for (let i = 1; i < cant; i++) {
+                const label = document.createElement('label');
+                label.innerText = "Nombre del acompañante " + i;
+                const input = document.createElement('input');
+                input.type = "text";
+                input.className = "acomp-input";
+                input.placeholder = "Escribe aquí...";
+                input.required = true;
+                container.appendChild(label);
+                container.appendChild(input);
+            }
+        }
+    }
+
+    document.getElementById('confirmForm').onsubmit = function(e) {
+        e.preventDefault();
+        const btn = document.getElementById('btnSubmit');
+        btn.disabled = true;
+        btn.innerText = "REGISTRANDO...";
+
+        const acompInputs = document.querySelectorAll('.acomp-input');
+        const listaAcomp = Array.from(acompInputs).map(i => i.value.trim()).join(', ') || "Ninguno";
+
+        const formData = new URLSearchParams();
+        formData.append('p_nombre', nombreInvitadoURL);
+        formData.append('p_asiste', document.getElementById('asistencia').value);
+        formData.append('p_pases', document.getElementById('pasesConfirmados').value || 1);
+        formData.append('p_acomp', listaAcomp);
+
+        // URL de tu Script
+        fetch('https://script.google.com/macros/s/AKfycbznHy5z_K7ZKLiVxuBN9yJ7vJ64G8J8ZyUpQLyAMbmGAul44TP9Ko-ftGHD8xZvD06i/exec', {
+            method: 'POST',
+            body: formData,
+            mode: 'no-cors'
+        }).then(() => {
+            document.getElementById('formCard').innerHTML = `
+                <h1 style="font-size:20px; font-family:Cormorant Garamond;">¡Muchas Gracias!</h1>
+                <p style="font-size:13px; color:#333;">Tu confirmación ha sido recibida correctamente en nuestro Excel.</p>`;
+        }).catch((err) => {
+            alert("Error de conexión. Intenta de nuevo.");
+            btn.disabled = false;
+            btn.innerText = "CONFIRMAR";
+        });
+    };
+</script>
+</body>
+</html>
