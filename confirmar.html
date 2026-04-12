@@ -30,7 +30,7 @@
             </select>
             
             <div id="seccionPases" style="display:none;">
-                <label>Número de personas</label>
+                <label>Número de personas (incluyéndote)</label>
                 <input type="number" id="pasesConfirmados" min="1">
                 <div id="contenedorAcompanantes"></div>
             </div>
@@ -42,7 +42,8 @@
 <script>
     const params = new URLSearchParams(window.location.search);
     const pasesMax = parseInt(params.get('pases')) || 1;
-    const nombreURL = (params.get('id') || "Invitado").replace(/_/g, " ");
+    // Captura el nombre de la URL y limpia los guiones
+    const nombreURL = (params.get('id') || "Invitado").split('_').join(' ');
 
     function actualizarInterfaz() {
         const asiste = document.getElementById('asistencia').value;
@@ -62,7 +63,7 @@
         contenedor.innerHTML = '';
         if (cant > 1) {
             for (let i = 1; i < cant; i++) {
-                contenedor.innerHTML += `<label>Acompañante ${i}</label><input type="text" class="nombre-acomp" placeholder="Nombre completo" required>`;
+                contenedor.innerHTML += `<label>Nombre del Acompañante ${i}</label><input type="text" class="nombre-acomp" placeholder="Nombre completo" required>`;
             }
         }
     }
@@ -77,21 +78,23 @@
 
         const nombresAcomp = Array.from(document.querySelectorAll('.nombre-acomp')).map(i => i.value).join(', ') || "Ninguno";
 
-        const datos = new URLSearchParams();
-        datos.append('p_nombre', nombreURL);
-        datos.append('p_asiste', document.getElementById('asistencia').value);
-        datos.append('p_pases', document.getElementById('pasesConfirmados').value);
-        datos.append('p_acomp', nombresAcomp);
+        // IMPORTANTE: URL DE TU SCRIPT AQUÍ
+        const urlScript = 'https://script.google.com/macros/s/AKfycbwBJiLBdLS04NtvOaJ8VDR12muGkNK1j73I3Sae3nu1F-WxQry3_wumbKh4Mx63878/exec'; 
 
-        fetch('TU_NUEVA_URL_DE_APPS_SCRIPT', {
+        // Enviamos los datos como una URL para máxima compatibilidad
+        const queryParams = new URLSearchParams({
+            p_nombre: nombreURL,
+            p_asiste: document.getElementById('asistencia').value,
+            p_pases: document.getElementById('pasesConfirmados').value || "1",
+            p_acomp: nombresAcomp
+        }).toString();
+
+        fetch(urlScript + "?" + queryParams, {
             method: 'POST',
-            body: datos,
             mode: 'no-cors'
         }).then(() => {
             document.getElementById('formCard').innerHTML = "<h2>¡Gracias!</h2><p>Tu respuesta ha sido registrada.</p>";
         }).catch(() => {
-            // Incluso si hay error de CORS, los datos suelen llegar. 
-            // Si el Excel se llena, ignoramos este mensaje.
             document.getElementById('formCard').innerHTML = "<h2>¡Gracias!</h2><p>Tu respuesta ha sido enviada con éxito.</p>";
         });
     };
