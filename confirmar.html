@@ -2,97 +2,114 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Confirmación - Maria Claudia & Gustavo</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         :root { --gold: #c9a96e; }
         
         body, html { 
-            margin: 0; padding: 0; min-height: 100vh; 
+            margin: 0; padding: 0; height: 100%; width: 100%;
             font-family: 'Montserrat', sans-serif;
-            background-color: #000; /* Fondo de seguridad */
+            background-color: #fff;
         }
 
-        /* CAPA DE IMAGEN DE FONDO */
-        .bg-photo {
+        /* CONTENEDOR DE IMAGEN DEFINITIVO */
+        .bg-wrapper {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            /* Forzamos la carga de la imagen con filtro oscuro para resaltar letras blancas */
-            background: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.6) 100%), 
-                        url('novios.jpg');
-            background-size: cover;
-            background-position: center 5%; /* Prioriza ver las cabezas */
-            z-index: -1;
+            z-index: 1;
+            background-color: #000;
         }
 
-        .main-wrapper {
+        .bg-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center 5%; /* Asegura ver las cabezas */
+            display: block;
+        }
+
+        /* CAPA OSCURA PARA LEER TEXTO */
+        .overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.6) 100%);
+            z-index: 2;
+        }
+
+        /* CONTENEDOR DEL FORMULARIO */
+        .main-content {
+            position: relative;
+            z-index: 3;
             display: flex;
             flex-direction: column;
-            justify-content: flex-end; /* Empuja el formulario al fondo en móvil */
+            justify-content: flex-end; /* Empuja el cuadro hacia abajo */
             min-height: 100vh;
-            padding: 20px;
-            box-sizing: border-box;
+            padding: 0;
         }
 
-        /* DISEÑO DE TARJETA SEMI-TRANSPARENTE */
         .form-card { 
-            background: rgba(255, 255, 255, 0.8); /* 80% transparencia */
-            backdrop-filter: blur(15px); /* Efecto de desenfoque de cristal */
-            -webkit-backdrop-filter: blur(15px);
-            padding: 25px; 
-            border-radius: 25px; 
-            box-shadow: 0 10px 40px rgba(0,0,0,0.4); 
+            background: rgba(255, 255, 255, 0.95); /* Blanco casi sólido para máxima legibilidad */
+            padding: 30px 25px 40px; 
+            border-radius: 30px 30px 0 0; /* Redondeado solo arriba */
             width: 100%;
-            max-width: 420px; 
+            max-width: 500px; 
             margin: 0 auto;
+            box-sizing: border-box;
             text-align: center;
+            box-shadow: 0 -10px 30px rgba(0,0,0,0.3);
         }
 
-        h2 { color: var(--gold); font-size: 18px; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px; }
-        .info-pases { background: rgba(201, 169, 110, 0.15); padding: 12px; border-radius: 12px; margin-bottom: 15px; font-size: 13px; color: #333; border: 1px solid var(--gold); font-weight: 600; }
-        label { display: block; text-align: left; margin: 12px 0 5px; font-size: 11px; font-weight: 600; color: #222; text-transform: uppercase; }
-        select, input { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid rgba(0,0,0,0.2); font-family: 'Montserrat'; box-sizing: border-box; font-size: 14px; background: white; }
+        h2 { color: var(--gold); font-size: 18px; margin-bottom: 15px; letter-spacing: 1px; }
+        .info-pases { background: #fdfaf3; padding: 12px; border-radius: 12px; margin-bottom: 20px; font-size: 13px; color: #444; border: 1px solid var(--gold); font-weight: 600; }
+        label { display: block; text-align: left; margin: 15px 0 5px; font-size: 11px; font-weight: 600; color: #333; text-transform: uppercase; }
+        select, input { width: 100%; padding: 14px; border-radius: 10px; border: 1px solid #ddd; font-family: 'Montserrat'; box-sizing: border-box; font-size: 15px; background: white; -webkit-appearance: none; }
         .acomp-section { margin-top: 15px; padding-top: 15px; border-top: 1px dashed var(--gold); display: none; }
-        .btn-submit { width: 100%; padding: 16px; margin-top: 20px; border: none; border-radius: 10px; background: var(--gold); color: white; font-weight: bold; cursor: pointer; font-size: 14px; box-shadow: 0 4px 15px rgba(201, 169, 110, 0.3); }
+        .btn-submit { width: 100%; padding: 18px; margin-top: 25px; border: none; border-radius: 10px; background: var(--gold); color: white; font-weight: bold; cursor: pointer; font-size: 15px; }
 
-        /* Ajuste para computadoras */
+        /* Escritorio */
         @media (min-width: 768px) {
-            .main-wrapper { justify-content: center; }
+            .main-content { justify-content: center; padding: 20px; }
+            .form-card { border-radius: 25px; }
         }
     </style>
 </head>
 <body>
 
-<div class="bg-photo"></div>
-
-<div class="main-wrapper">
-    <div class="form-card" id="formCard">
-        <h2 id="saludo">¡HOLA!</h2>
-        
-        <div class="info-pases" id="infoPases">Cargando pases...</div>
-
-        <form id="confirmForm">
-            <label>¿Confirmas tu asistencia?</label>
-            <select id="asistencia" required onchange="validarAsistencia()">
-                <option value="SÍ">SÍ, ASISTIRÉ</option>
-                <option value="NO">NO PODRÉ ASISTIR</option>
-            </select>
-
-            <div id="seccionCantidadPases">
-                <label>Pases a confirmar:</label>
-                <select id="pasesConfirmados" onchange="generarInputsAcomp()"></select>
-            </div>
-
-            <div id="acompSection" class="acomp-section">
-                <label>Nombres de acompañantes:</label>
-                <div id="inputsAcomp"></div>
-            </div>
-
-            <button type="submit" class="btn-submit" id="btnSubmit">CONFIRMAR MI ASISTENCIA</button>
-        </form>
+    <div class="bg-wrapper">
+        <img src="novios.jpg" alt="Novios">
     </div>
-</div>
+    
+    <div class="overlay"></div>
+
+    <div class="main-content">
+        <div class="form-card" id="formCard">
+            <h2 id="saludo">¡HOLA!</h2>
+            
+            <div class="info-pases" id="infoPases">Cargando pases...</div>
+
+            <form id="confirmForm">
+                <label>¿Confirmas tu asistencia?</label>
+                <select id="asistencia" required onchange="validarAsistencia()">
+                    <option value="SÍ">SÍ, ASISTIRÉ</option>
+                    <option value="NO">NO PODRÉ ASISTIR</option>
+                </select>
+
+                <div id="seccionCantidadPases">
+                    <label>Pases a confirmar:</label>
+                    <select id="pasesConfirmados" onchange="generarInputsAcomp()"></select>
+                </div>
+
+                <div id="acompSection" class="acomp-section">
+                    <label>Nombres de acompañantes:</label>
+                    <div id="inputsAcomp"></div>
+                </div>
+
+                <button type="submit" class="btn-submit" id="btnSubmit">CONFIRMAR MI ASISTENCIA</button>
+            </form>
+        </div>
+    </div>
 
 <script>
     const params = new URLSearchParams(window.location.search);
@@ -110,7 +127,7 @@
         selectPases.appendChild(opt);
     }
 
-    // RESTRICCIÓN 1 PASE: NO ELIGE CANTIDAD NI ACOMPAÑANTES
+    // RESTRICCIÓN 1 PASE ACTIVA
     if (pasesMax === 1) {
         document.getElementById('seccionCantidadPases').style.display = "none";
         document.getElementById('acompSection').style.display = "none";
@@ -142,7 +159,7 @@
         if (cantidad > 1) {
             seccionAcomp.style.display = "block";
             for (let i = 1; i < cantidad; i++) {
-                container.innerHTML += `<input type="text" class="nombre-acomp" placeholder="Nombre del acompañante" required style="margin-bottom:8px;">`;
+                container.innerHTML += `<input type="text" class="nombre-acomp" placeholder="Nombre completo" required style="margin-bottom:10px;">`;
             }
         } else {
             seccionAcomp.style.display = "none";
@@ -157,7 +174,6 @@
 
         const nombresAcomp = Array.from(document.querySelectorAll('.nombre-acomp')).map(i => i.value).join(', ') || "Ninguno";
         
-        // TU URL DE APPS SCRIPT
         const urlScript = 'https://script.google.com/macros/s/AKfycbwOgIwOfJB2WAu2slVtCq8xRiTtd9D_8xZ4rc1gZpibBq9LAvn7AilcUkJf5_o2nRRB/exec'; 
 
         const queryParams = new URLSearchParams({
@@ -171,9 +187,9 @@
             method: 'POST',
             mode: 'no-cors'
         }).then(() => {
-            document.getElementById('formCard').innerHTML = "<h2 style='margin-top:20px;'>¡Confirmado!</h2><p>Muchas gracias por acompañarnos en este día.</p>";
+            document.getElementById('formCard').innerHTML = "<h2 style='margin-top:20px;'>¡Confirmado!</h2><p>Muchas gracias por responder. Te esperamos.</p>";
         }).catch(() => {
-            alert("Hubo un error. Inténtalo de nuevo.");
+            alert("Error al enviar. Inténtalo de nuevo.");
             btn.disabled = false;
         });
     }
