@@ -7,45 +7,88 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         :root { --gold: #c9a96e; }
-        body { margin: 0; padding: 0; background: #fdfbf7; font-family: 'Montserrat', sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
-        .form-card { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 90%; max-width: 400px; text-align: center; }
-        h2 { color: var(--gold); font-size: 22px; margin-bottom: 20px; }
-        .info-pases { background: #f9f4e9; padding: 10px; border-radius: 10px; margin-bottom: 20px; font-size: 14px; color: #555; border: 1px solid #eee; }
-        label { display: block; text-align: left; margin: 15px 0 5px; font-size: 13px; font-weight: 600; color: #444; }
-        select, input { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #ddd; font-family: 'Montserrat'; box-sizing: border-box; }
-        .acomp-section { margin-top: 20px; padding-top: 15px; border-top: 1px solid #eee; display: none; } /* Oculto por defecto */
-        .btn-submit { width: 100%; padding: 15px; margin-top: 25px; border: none; border-radius: 8px; background: var(--gold); color: white; font-weight: bold; cursor: pointer; transition: 0.3s; }
-        .btn-submit:disabled { background: #ccc; }
+        
+        body, html { 
+            margin: 0; 
+            padding: 0; 
+            min-height: 100vh; 
+            font-family: 'Montserrat', sans-serif; 
+        }
+
+        /* AJUSTE DE FOTO DE FONDO */
+        .bg-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.6)), url('novios.jpeg');
+            background-size: cover;
+            background-position: center 20%; /* Ajusta para que las caras se vean arriba */
+            z-index: -1;
+        }
+
+        .wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 40px 20px; /* Espacio para que no tape todo en móviles */
+            box-sizing: border-box;
+        }
+
+        .form-card { 
+            background: rgba(255, 255, 255, 0.92); /* Un toque de transparencia */
+            backdrop-filter: blur(5px);
+            padding: 30px; 
+            border-radius: 20px; 
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2); 
+            width: 100%;
+            max-width: 400px; 
+            text-align: center; 
+        }
+
+        h2 { color: var(--gold); font-size: 20px; margin-bottom: 20px; font-weight: 600; }
+        .info-pases { background: #f9f4e9; padding: 12px; border-radius: 10px; margin-bottom: 20px; font-size: 13px; color: #555; border: 1px solid #eee; }
+        label { display: block; text-align: left; margin: 15px 0 5px; font-size: 12px; font-weight: 600; color: #444; text-transform: uppercase; }
+        select, input { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #ddd; font-family: 'Montserrat'; box-sizing: border-box; font-size: 14px; }
+        .acomp-section { margin-top: 20px; padding-top: 15px; border-top: 1px solid #eee; display: none; }
+        .btn-submit { width: 100%; padding: 15px; margin-top: 25px; border: none; border-radius: 8px; background: var(--gold); color: white; font-weight: bold; cursor: pointer; font-size: 15px; transition: 0.3s; }
+        .btn-submit:active { transform: scale(0.98); }
     </style>
 </head>
 <body>
 
-<div class="form-card" id="formCard">
-    <h2 id="saludo">Cargando invitación...</h2>
-    
-    <div class="info-pases" id="infoPases">
-        Cargando información de pases...
+<div class="bg-container"></div>
+
+<div class="wrapper">
+    <div class="form-card" id="formCard">
+        <h2 id="saludo">¡HOLA!</h2>
+        
+        <div class="info-pases" id="infoPases">
+            Cargando pases...
+        </div>
+
+        <form id="confirmForm">
+            <label>¿Confirmas tu asistencia?</label>
+            <select id="asistencia" required onchange="validarAsistencia()">
+                <option value="SÍ">Sí, asistiré</option>
+                <option value="NO">No podré asistir</option>
+            </select>
+
+            <div id="seccionCantidadPases">
+                <label>Pases a confirmar:</label>
+                <select id="pasesConfirmados" onchange="generarInputsAcomp()"></select>
+            </div>
+
+            <div id="acompSection" class="acomp-section">
+                <label>Nombres de acompañantes:</label>
+                <div id="inputsAcomp"></div>
+            </div>
+
+            <button type="submit" class="btn-submit" id="btnSubmit">CONFIRMAR ASISTENCIA</button>
+        </form>
     </div>
-
-    <form id="confirmForm">
-        <label>¿Confirmas tu asistencia?</label>
-        <select id="asistencia" required onchange="validarAsistencia()">
-            <option value="SÍ">Sí, asistiré</option>
-            <option value="NO">No podré asistir</option>
-        </select>
-
-        <div id="seccionCantidadPases">
-            <label>Pases a confirmar:</label>
-            <select id="pasesConfirmados" onchange="generarInputsAcomp()"></select>
-        </div>
-
-        <div id="acompSection" class="acomp-section">
-            <label>Nombres de acompañantes:</label>
-            <div id="inputsAcomp"></div>
-        </div>
-
-        <button type="submit" class="btn-submit" id="btnSubmit">CONFIRMAR ASISTENCIA</button>
-    </form>
 </div>
 
 <script>
@@ -53,10 +96,9 @@
     const nombreURL = params.get('id') ? params.get('id').replace(/_/g, ' ') : "Invitado";
     const pasesMax = parseInt(params.get('pases')) || 1;
 
-    document.getElementById('saludo').innerText = "¡Hola, " + nombreURL.toUpperCase() + "!";
+    document.getElementById('saludo').innerText = "¡HOLA, " + nombreURL.toUpperCase() + "!";
     document.getElementById('infoPases').innerText = "Tienes " + pasesMax + " pase(s) reservado(s).";
 
-    // Configurar el selector de pases según el máximo del Excel
     const selectPases = document.getElementById('pasesConfirmados');
     for (let i = 1; i <= pasesMax; i++) {
         let opt = document.createElement('option');
@@ -65,7 +107,6 @@
         selectPases.appendChild(opt);
     }
 
-    // LÓGICA CRÍTICA: Bloquear si es solo 1 pase
     if (pasesMax === 1) {
         document.getElementById('seccionCantidadPases').style.display = "none";
         document.getElementById('acompSection').style.display = "none";
@@ -81,7 +122,6 @@
             seccionPases.style.display = "none";
             seccionAcomp.style.display = "none";
         } else {
-            // Solo volver a mostrar si los pases son más de 1
             if (pasesMax > 1) {
                 seccionPases.style.display = "block";
                 generarInputsAcomp();
@@ -93,14 +133,12 @@
         const cantidad = parseInt(selectPases.value);
         const container = document.getElementById('inputsAcomp');
         const seccionAcomp = document.getElementById('acompSection');
-        
         container.innerHTML = "";
 
-        // Solo mostrar sección de acompañantes si el invitado confirma más de 1 pase
         if (cantidad > 1) {
             seccionAcomp.style.display = "block";
             for (let i = 1; i < cantidad; i++) {
-                container.innerHTML += `<input type="text" class="nombre-acomp" placeholder="Nombre del acompañante ${i}" required style="margin-bottom:10px;">`;
+                container.innerHTML += `<input type="text" class="nombre-acomp" placeholder="Nombre completo" required style="margin-bottom:10px;">`;
             }
         } else {
             seccionAcomp.style.display = "none";
@@ -111,11 +149,11 @@
         e.preventDefault();
         const btn = document.getElementById('btnSubmit');
         btn.disabled = true;
-        btn.innerText = "ENVIANDO...";
+        btn.innerText = "REGISTRANDO...";
 
         const nombresAcomp = Array.from(document.querySelectorAll('.nombre-acomp')).map(i => i.value).join(', ') || "Ninguno";
         
-        // URL DE TU GOOGLE APPS SCRIPT
+        // RECUERDA PONER TU URL DE APPS SCRIPT AQUÍ
         const urlScript = 'https://script.google.com/macros/s/AKfycbwOgIwOfJB2WAu2slVtCq8xRiTtd9D_8xZ4rc1gZpibBq9LAvn7AilcUkJf5_o2nRRB/exec'; 
 
         const queryParams = new URLSearchParams({
@@ -129,15 +167,13 @@
             method: 'POST',
             mode: 'no-cors'
         }).then(() => {
-            document.getElementById('formCard').innerHTML = "<h2>¡Confirmado!</h2><p>Muchas gracias por responder. Tu respuesta ha sido registrada con éxito.</p>";
+            document.getElementById('formCard').innerHTML = "<h2>¡Todo listo!</h2><p>Gracias por confirmar tu asistencia. ¡Nos vemos pronto!</p>";
         }).catch(() => {
-            alert("Error al enviar. Inténtalo de nuevo.");
+            alert("Error de conexión. Inténtalo de nuevo.");
             btn.disabled = false;
-            btn.innerText = "CONFIRMAR ASISTENCIA";
         });
     }
     
-    // Inicializar la vista
     if(pasesMax > 1) generarInputsAcomp();
 </script>
 
