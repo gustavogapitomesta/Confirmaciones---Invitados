@@ -15,7 +15,6 @@
             overflow: hidden;
         }
 
-        /* FONDO CON EXTENSIÓN CORREGIDA .JPEG */
         .background-container {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -26,13 +25,15 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            object-position: center 5%; /* Enfoca las cabezas de los novios */
+            /* Enfoca la parte inferior de la foto donde están los novios */
+            object-position: center bottom; 
         }
 
         .overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(to bottom, rgba(0,0,0,0) 40%, rgba(0,0,0,0.6) 100%);
+            /* Degradado invertido para ayudar a leer arriba */
+            background: linear-gradient(to top, rgba(0,0,0,0) 40%, rgba(0,0,0,0.4) 100%);
             z-index: 2;
         }
 
@@ -41,26 +42,28 @@
             z-index: 3;
             display: flex;
             flex-direction: column;
-            justify-content: flex-end; 
+            /* UBICACIÓN EN LA PARTE SUPERIOR */
+            justify-content: flex-start; 
             height: 100vh;
-            padding: 20px;
+            padding: 40px 20px; /* Espacio superior para que respire */
             box-sizing: border-box;
         }
 
-        /* RECUADRO ESTILO TARJETA INFERIOR */
+        /* RECUADRO CENTRADO Y SUPERIOR */
         .form-card { 
-            background: rgba(255, 255, 255, 0.96);
+            background: rgba(255, 255, 255, 0.94);
+            backdrop-filter: blur(5px);
             padding: 25px; 
             border-radius: 20px; 
             width: 100%;
             max-width: 380px; 
-            margin: 0 auto 15px auto;
+            margin: 0 auto; /* Centrado horizontal */
             text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
         }
 
-        h2 { color: var(--gold); font-size: 17px; margin: 0 0 15px 0; letter-spacing: 1px; font-weight: 600; }
-        .info-pases { background: #fdfaf3; padding: 10px; border-radius: 10px; margin-bottom: 15px; font-size: 12px; color: #555; border: 1px solid var(--gold); font-weight: 600; }
+        h2 { color: var(--gold); font-size: 17px; margin: 0 0 15px 0; letter-spacing: 1px; font-weight: 600; text-transform: uppercase; }
+        .info-pases { background: #fdfaf3; padding: 10px; border-radius: 10px; margin-bottom: 15px; font-size: 12px; color: #444; border: 1px solid var(--gold); font-weight: 600; }
         
         label { display: block; text-align: left; margin: 10px 0 5px; font-size: 10px; font-weight: 600; color: #666; text-transform: uppercase; }
         select, input { 
@@ -77,15 +80,14 @@
         }
 
         @media (min-width: 768px) {
-            .content-wrapper { justify-content: center; }
-            .form-card { margin-bottom: 0; }
+            .content-wrapper { justify-content: center; } /* En PC se mantiene al centro */
         }
     </style>
 </head>
 <body>
 
     <div class="background-container">
-        <img src="novios.jpeg" id="bgImg" onerror="this.src='novios.jpg'">
+        <img src="novios.jpeg" id="bgImg">
     </div>
     
     <div class="overlay"></div>
@@ -94,7 +96,7 @@
         <div class="form-card" id="formCard">
             <h2 id="saludo">¡HOLA!</h2>
             
-            <div class="info-pases" id="infoPases">Cargando invitación...</div>
+            <div class="info-pases" id="infoPases">Cargando datos...</div>
 
             <form id="confirmForm">
                 <label>¿Confirmas tu asistencia?</label>
@@ -109,7 +111,7 @@
                 </div>
 
                 <div id="acompSection" class="acomp-section">
-                    <label>Nombre de acompañante(s):</label>
+                    <label>Nombre(s) de acompañante(s):</label>
                     <div id="inputsAcomp"></div>
                 </div>
 
@@ -119,10 +121,6 @@
     </div>
 
 <script>
-    // Forzar recarga de imagen
-    const imgElement = document.getElementById('bgImg');
-    imgElement.src = "novios.jpeg?v=" + new Date().getTime();
-
     const params = new URLSearchParams(window.location.search);
     const nombreURL = params.get('id') ? params.get('id').replace(/_/g, ' ') : "Invitado";
     const pasesMax = parseInt(params.get('pases')) || 1;
@@ -138,7 +136,7 @@
         selectPases.appendChild(opt);
     }
 
-    // RESTRICCIÓN 1 PASO: NO ELIGE CANTIDAD NI NOMBRES
+    // RESTRICCIÓN 1 PASO
     if (pasesMax === 1) {
         document.getElementById('seccionCantidadPases').style.display = "none";
         document.getElementById('acompSection').style.display = "none";
@@ -198,9 +196,9 @@
             method: 'POST',
             mode: 'no-cors'
         }).then(() => {
-            document.getElementById('formCard').innerHTML = "<h2>¡Confirmado!</h2><p>Gracias por acompañarnos en este momento tan especial.</p>";
+            document.getElementById('formCard').innerHTML = "<h2>¡Confirmado!</h2><p>Tu respuesta ha sido registrada. ¡Gracias!</p>";
         }).catch(() => {
-            alert("Error de conexión. Inténtalo de nuevo.");
+            alert("Error de envío.");
             btn.disabled = false;
         });
     }
