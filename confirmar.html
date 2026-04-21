@@ -6,7 +6,7 @@
     <title>Confirmación</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        :root { --gold: #c9a96e; }
+        :root { --gold: #c9a96e; --dark: #444; --light-gold: #fdfaf3; }
         
         body, html { 
             margin: 0; padding: 0; height: 100%; width: 100%;
@@ -30,7 +30,7 @@
         .overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(to top, rgba(0,0,0,0) 50%, rgba(0,0,0,0.3) 100%);
+            background: linear-gradient(to top, rgba(0,0,0,0) 50%, rgba(0,0,0,0.2) 100%);
             z-index: 2;
         }
 
@@ -41,47 +41,62 @@
             flex-direction: column;
             justify-content: flex-start; 
             height: 100vh;
-            padding: 30px 15px; /* Menos margen lateral */
+            padding: 25px 0;
             box-sizing: border-box;
         }
 
-        /* RECUADRO MÁS PEQUEÑO Y COMPACTO */
+        /* RECUADRO REDUCIDO UN 20% Y CENTRADO */
         .form-card { 
             background: rgba(255, 255, 255, 0.96);
-            padding: 20px; 
-            border-radius: 15px; 
-            width: 90%; /* Ajuste elástico */
-            max-width: 310px; /* Tamaño pequeño para que no se corte */
+            padding: 18px; 
+            border-radius: 12px; 
+            width: 260px; /* Ancho fijo reducido para evitar desbordes */
             margin: 0 auto;
             text-align: center;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+            box-sizing: border-box;
         }
 
-        h2 { color: var(--gold); font-size: 15px; margin: 0 0 12px 0; letter-spacing: 1px; font-weight: 600; text-transform: uppercase; }
+        h2 { color: var(--gold); font-size: 14px; margin: 0 0 10px 0; letter-spacing: 1px; font-weight: 600; text-transform: uppercase; }
         
         .info-pases { 
-            background: #fdfaf3; 
-            padding: 8px; 
-            border-radius: 8px; 
+            background: var(--light-gold); 
+            padding: 6px; 
+            border-radius: 6px; 
             margin-bottom: 12px; 
-            font-size: 11px; 
-            color: #444; 
-            border: 1px solid var(--gold); 
+            font-size: 10px; 
+            color: var(--dark); 
+            border: 1px solid rgba(201, 169, 110, 0.3); 
         }
         
-        label { display: block; text-align: left; margin: 8px 0 4px; font-size: 9px; font-weight: 600; color: #777; text-transform: uppercase; }
+        label { display: block; text-align: left; margin: 8px 0 4px; font-size: 8px; font-weight: 600; color: #888; text-transform: uppercase; }
         
+        /* ESTILO ACORDE A LA FOTO (ELIMINA EL AZUL) */
         select, input { 
-            width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #ddd; 
-            font-family: 'Montserrat'; font-size: 13px; background: white; margin-bottom: 5px;
-            -webkit-appearance: none;
+            width: 100%; padding: 10px; border-radius: 5px; 
+            border: 1px solid #ddd; 
+            font-family: 'Montserrat'; font-size: 12px; 
+            background: white; color: var(--dark);
+            margin-bottom: 5px;
+            outline: none;
+            -webkit-appearance: none; /* Quita el diseño azul de iOS/Android */
+            -moz-appearance: none;
+            appearance: none;
         }
 
-        .acomp-section { margin-top: 10px; padding-top: 10px; border-top: 1px dashed #ccc; display: none; }
+        /* Pequeña flecha personalizada para el select ya que quitamos la original */
+        select {
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23c9a96e' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+        }
+
+        .acomp-section { margin-top: 8px; padding-top: 8px; border-top: 1px dashed #eee; display: none; }
         
         .btn-submit { 
-            width: 100%; padding: 14px; margin-top: 12px; border: none; border-radius: 6px; 
-            background: var(--gold); color: white; font-weight: bold; cursor: pointer; font-size: 13px; 
+            width: 100%; padding: 12px; margin-top: 10px; border: none; border-radius: 5px; 
+            background: var(--gold); color: white; font-weight: bold; cursor: pointer; font-size: 12px; 
+            text-transform: uppercase;
         }
 
         @media (min-width: 768px) {
@@ -116,11 +131,11 @@
                 </div>
 
                 <div id="acompSection" class="acomp-section">
-                    <label>Nombre de acompañantes:</label>
+                    <label>Acompañantes:</label>
                     <div id="inputsAcomp"></div>
                 </div>
 
-                <button type="submit" class="btn-submit" id="btnSubmit">CONFIRMAR</button>
+                <button type="submit" class="btn-submit" id="btnSubmit">ENVIAR</button>
             </form>
         </div>
     </div>
@@ -141,7 +156,7 @@
         selectPases.appendChild(opt);
     }
 
-    // RESTRICCIÓN DE 1 PASO ACTIVA
+    // RESTRICCIÓN DE 1 PASO INVIOLABLE
     if (pasesMax === 1) {
         document.getElementById('seccionCantidadPases').style.display = "none";
         document.getElementById('acompSection').style.display = "none";
@@ -187,7 +202,6 @@
         btn.innerText = "ENVIANDO...";
 
         const nombresAcomp = Array.from(document.querySelectorAll('.nombre-acomp')).map(i => i.value).join(', ') || "Ninguno";
-        
         const urlScript = 'https://script.google.com/macros/s/AKfycbwOgIwOfJB2WAu2slVtCq8xRiTtd9D_8xZ4rc1gZpibBq9LAvn7AilcUkJf5_o2nRRB/exec'; 
 
         const queryParams = new URLSearchParams({
@@ -197,17 +211,14 @@
             p_acomp: nombresAcomp
         }).toString();
 
-        fetch(urlScript + "?" + queryParams, {
-            method: 'POST',
-            mode: 'no-cors'
-        }).then(() => {
-            document.getElementById('formCard').innerHTML = "<h3>¡Confirmado!</h3><p style='font-size:12px;'>Gracias por tu respuesta.</p>";
+        fetch(urlScript + "?" + queryParams, { method: 'POST', mode: 'no-cors' })
+        .then(() => {
+            document.getElementById('formCard').innerHTML = "<h3 style='color:var(--gold); font-size:14px;'>¡CONFIRMADO!</h3><p style='font-size:10px;'>Tu respuesta ha sido registrada. ¡Gracias!</p>";
         }).catch(() => {
             alert("Error de envío.");
             btn.disabled = false;
         });
     }
-    
     if(pasesMax > 1) generarInputsAcomp();
 </script>
 </body>
