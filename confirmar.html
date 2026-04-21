@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Confirmación - Maria Claudia & Gustavo</title>
+    <title>Confirmación de Asistencia</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         :root { --gold: #c9a96e; }
@@ -11,83 +11,90 @@
         body, html { 
             margin: 0; padding: 0; height: 100%; width: 100%;
             font-family: 'Montserrat', sans-serif;
-            background-color: #fff;
+            background-color: #000;
+            overflow: hidden;
         }
 
-        /* CONTENEDOR DE IMAGEN DEFINITIVO */
-        .bg-wrapper {
+        /* FONDO CON EXTENSIÓN CORREGIDA .JPEG */
+        .background-container {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             z-index: 1;
-            background-color: #000;
         }
 
-        .bg-wrapper img {
+        .background-container img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            object-position: center 5%; /* Asegura ver las cabezas */
-            display: block;
+            object-position: center 5%; /* Enfoca las cabezas de los novios */
         }
 
-        /* CAPA OSCURA PARA LEER TEXTO */
         .overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.6) 100%);
+            background: linear-gradient(to bottom, rgba(0,0,0,0) 40%, rgba(0,0,0,0.6) 100%);
             z-index: 2;
         }
 
-        /* CONTENEDOR DEL FORMULARIO */
-        .main-content {
+        .content-wrapper {
             position: relative;
             z-index: 3;
             display: flex;
             flex-direction: column;
-            justify-content: flex-end; /* Empuja el cuadro hacia abajo */
-            min-height: 100vh;
-            padding: 0;
-        }
-
-        .form-card { 
-            background: rgba(255, 255, 255, 0.95); /* Blanco casi sólido para máxima legibilidad */
-            padding: 30px 25px 40px; 
-            border-radius: 30px 30px 0 0; /* Redondeado solo arriba */
-            width: 100%;
-            max-width: 500px; 
-            margin: 0 auto;
+            justify-content: flex-end; 
+            height: 100vh;
+            padding: 20px;
             box-sizing: border-box;
-            text-align: center;
-            box-shadow: 0 -10px 30px rgba(0,0,0,0.3);
         }
 
-        h2 { color: var(--gold); font-size: 18px; margin-bottom: 15px; letter-spacing: 1px; }
-        .info-pases { background: #fdfaf3; padding: 12px; border-radius: 12px; margin-bottom: 20px; font-size: 13px; color: #444; border: 1px solid var(--gold); font-weight: 600; }
-        label { display: block; text-align: left; margin: 15px 0 5px; font-size: 11px; font-weight: 600; color: #333; text-transform: uppercase; }
-        select, input { width: 100%; padding: 14px; border-radius: 10px; border: 1px solid #ddd; font-family: 'Montserrat'; box-sizing: border-box; font-size: 15px; background: white; -webkit-appearance: none; }
-        .acomp-section { margin-top: 15px; padding-top: 15px; border-top: 1px dashed var(--gold); display: none; }
-        .btn-submit { width: 100%; padding: 18px; margin-top: 25px; border: none; border-radius: 10px; background: var(--gold); color: white; font-weight: bold; cursor: pointer; font-size: 15px; }
+        /* RECUADRO ESTILO TARJETA INFERIOR */
+        .form-card { 
+            background: rgba(255, 255, 255, 0.96);
+            padding: 25px; 
+            border-radius: 20px; 
+            width: 100%;
+            max-width: 380px; 
+            margin: 0 auto 15px auto;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
 
-        /* Escritorio */
+        h2 { color: var(--gold); font-size: 17px; margin: 0 0 15px 0; letter-spacing: 1px; font-weight: 600; }
+        .info-pases { background: #fdfaf3; padding: 10px; border-radius: 10px; margin-bottom: 15px; font-size: 12px; color: #555; border: 1px solid var(--gold); font-weight: 600; }
+        
+        label { display: block; text-align: left; margin: 10px 0 5px; font-size: 10px; font-weight: 600; color: #666; text-transform: uppercase; }
+        select, input { 
+            width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #ccc; 
+            font-family: 'Montserrat'; font-size: 14px; background: white; margin-bottom: 5px;
+            -webkit-appearance: none;
+        }
+
+        .acomp-section { margin-top: 10px; padding-top: 10px; border-top: 1px dashed #ccc; display: none; }
+        
+        .btn-submit { 
+            width: 100%; padding: 16px; margin-top: 15px; border: none; border-radius: 8px; 
+            background: var(--gold); color: white; font-weight: bold; cursor: pointer; font-size: 14px; 
+        }
+
         @media (min-width: 768px) {
-            .main-content { justify-content: center; padding: 20px; }
-            .form-card { border-radius: 25px; }
+            .content-wrapper { justify-content: center; }
+            .form-card { margin-bottom: 0; }
         }
     </style>
 </head>
 <body>
 
-    <div class="bg-wrapper">
-        <img src="novios.jpg" alt="Novios">
+    <div class="background-container">
+        <img src="novios.jpeg" id="bgImg" onerror="this.src='novios.jpg'">
     </div>
     
     <div class="overlay"></div>
 
-    <div class="main-content">
+    <div class="content-wrapper">
         <div class="form-card" id="formCard">
             <h2 id="saludo">¡HOLA!</h2>
             
-            <div class="info-pases" id="infoPases">Cargando pases...</div>
+            <div class="info-pases" id="infoPases">Cargando invitación...</div>
 
             <form id="confirmForm">
                 <label>¿Confirmas tu asistencia?</label>
@@ -102,16 +109,20 @@
                 </div>
 
                 <div id="acompSection" class="acomp-section">
-                    <label>Nombres de acompañantes:</label>
+                    <label>Nombre de acompañante(s):</label>
                     <div id="inputsAcomp"></div>
                 </div>
 
-                <button type="submit" class="btn-submit" id="btnSubmit">CONFIRMAR MI ASISTENCIA</button>
+                <button type="submit" class="btn-submit" id="btnSubmit">CONFIRMAR ASISTENCIA</button>
             </form>
         </div>
     </div>
 
 <script>
+    // Forzar recarga de imagen
+    const imgElement = document.getElementById('bgImg');
+    imgElement.src = "novios.jpeg?v=" + new Date().getTime();
+
     const params = new URLSearchParams(window.location.search);
     const nombreURL = params.get('id') ? params.get('id').replace(/_/g, ' ') : "Invitado";
     const pasesMax = parseInt(params.get('pases')) || 1;
@@ -127,7 +138,7 @@
         selectPases.appendChild(opt);
     }
 
-    // RESTRICCIÓN 1 PASE ACTIVA
+    // RESTRICCIÓN 1 PASO: NO ELIGE CANTIDAD NI NOMBRES
     if (pasesMax === 1) {
         document.getElementById('seccionCantidadPases').style.display = "none";
         document.getElementById('acompSection').style.display = "none";
@@ -159,7 +170,7 @@
         if (cantidad > 1) {
             seccionAcomp.style.display = "block";
             for (let i = 1; i < cantidad; i++) {
-                container.innerHTML += `<input type="text" class="nombre-acomp" placeholder="Nombre completo" required style="margin-bottom:10px;">`;
+                container.innerHTML += `<input type="text" class="nombre-acomp" placeholder="Nombre completo" required style="margin-bottom:8px;">`;
             }
         } else {
             seccionAcomp.style.display = "none";
@@ -170,7 +181,7 @@
         e.preventDefault();
         const btn = document.getElementById('btnSubmit');
         btn.disabled = true;
-        btn.innerText = "REGISTRANDO...";
+        btn.innerText = "ENVIANDO...";
 
         const nombresAcomp = Array.from(document.querySelectorAll('.nombre-acomp')).map(i => i.value).join(', ') || "Ninguno";
         
@@ -187,9 +198,9 @@
             method: 'POST',
             mode: 'no-cors'
         }).then(() => {
-            document.getElementById('formCard').innerHTML = "<h2 style='margin-top:20px;'>¡Confirmado!</h2><p>Muchas gracias por responder. Te esperamos.</p>";
+            document.getElementById('formCard').innerHTML = "<h2>¡Confirmado!</h2><p>Gracias por acompañarnos en este momento tan especial.</p>";
         }).catch(() => {
-            alert("Error al enviar. Inténtalo de nuevo.");
+            alert("Error de conexión. Inténtalo de nuevo.");
             btn.disabled = false;
         });
     }
